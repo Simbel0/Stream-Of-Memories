@@ -1,14 +1,18 @@
 utf8 = require("utf8")
 
-_Class = require("src.hump.class")
+Class = require("src.hump.class")
 GameStateManager = require("src.hump.gamestate")
 Timer = require("src.hump.timer")
 
 Utils = require("src.utils")
 
+Object = require("src.objects.object")
+TubePath = require("src.objects.TubePath")
+
 GameStates = {
 	menu = require("src.states.menu"),
-	game = require("src.states.game")
+	game = require("src.states.game"),
+	debug = require("src.states.debug"),
 }
 function GameStateManager:changeState(state)
 	print(state)
