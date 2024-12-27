@@ -4,13 +4,13 @@ function Debug:init()
 	print("Init Debug State")
 
 	self.test = Object(100, 297)
-	self.testPath = TubePath(0, 0)
+	self.testPath = TubePath(0, 0, {{100, 100}, {120, 100}, {50, 100}})
 end
 
 function Debug:enter()
 	print("Entered Debug State")
 	print(self.test.x)
-	print(self.testPath.x)
+	print(Utils.dump(self.testPath:getNodePos(2)))
 	--print("Object info: "..self.TestObject.x)
 end
 

@@ -7,6 +7,7 @@ Timer = require("src.hump.timer")
 Utils = require("src.utils")
 
 Object = require("src.objects.object")
+TubeNode = require("src.objects.TubeNode")
 TubePath = require("src.objects.TubePath")
 
 GameStates = {
