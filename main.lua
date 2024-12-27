@@ -10,15 +10,19 @@ GameStates = {
 	menu = require("src.states.menu"),
 	game = require("src.states.game")
 }
+function GameStateManager:changeState(state)
+	print(state)
+	self.switch(GameStates[state])
+end
 
 function love.load()
 	require("src.vars")
-	print("Neuro Game is started!")
+	print("GAME START: Neuro Game is started!")
 
 	Timer.after(2, function() print("yay") end)
 
 	GameStateManager.registerEvents()
-	GameStateManager.switch(GameStates.game)
+	GameStateManager:changeState("debug")
 end
 
 function love.update(dt)
