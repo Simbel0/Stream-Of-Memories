@@ -11,11 +11,13 @@ end
 function TubeNode:draw()
 	Object.draw(self)
 
-	local r, g, b = self:getColor()
-	love.graphics.setColor(r, g, b, self.alpha+0.3)
+	if DEBUG_VIEW then
+		local r, g, b = self:getColor()
+		love.graphics.setColor(r, g, b, self.alpha+0.3)
 
-	local x, y = self:getPosition()
-	love.graphics.print(self.parent:getNodeNumber(self), x, y)
+		local x, y = self:getPosition()
+		love.graphics.print(self.parent:getNodeNumber(self), x, y)
+	end
 end
 
 return TubeNode
