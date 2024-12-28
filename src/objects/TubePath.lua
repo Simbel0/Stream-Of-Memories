@@ -1,4 +1,4 @@
-local TubePath = Class{__include=Object}
+local TubePath = Class{__includes=Object}
 
 function TubePath:init(x, y, path_pos)
 	Object.init(self, x, y)

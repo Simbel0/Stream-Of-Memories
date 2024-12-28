@@ -1,4 +1,4 @@
-local TubeNode = Class{__include=Object}
+local TubeNode = Class{__includes=Object}
 
 function TubeNode:init(x, y)
 	Object.init(self, x, y)
