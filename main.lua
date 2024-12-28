@@ -30,7 +30,7 @@ function love.load()
 	Timer.after(2, function() print("yay") end)
 
 	GameStateManager.registerEvents()
-	GameStateManager:changeState("debug")
+	GameStateManager:changeState("game")
 end
 
 function love.update(dt)

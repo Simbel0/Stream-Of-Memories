@@ -9,8 +9,8 @@ local function SortChildren(obj)
 end
 
 function Object:init(x, y)
-	self.x = x
-	self.y = y
+	self.x = x or 0
+	self.y = y or 0
 
 	self.class_id = "Object"
 

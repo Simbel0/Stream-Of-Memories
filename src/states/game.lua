@@ -2,6 +2,10 @@ local game = {}
 
 function game:init()
 	print("Init Game State")
+	self.stage = Object()
+
+	self.score = 0
+	self.best_score = 0
 end
 
 function game:enter()
@@ -16,7 +20,13 @@ function game:keypressed(key)
     end
 end
 
+function game:update()
+	self.stage:update()
+end
+
 function game:draw()
+	self.stage:draw()
+
 	love.graphics.setColor(1, 1, 1, 1)
 	love.graphics.print("Game text", 100, 199)
 end
