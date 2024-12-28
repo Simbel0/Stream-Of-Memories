@@ -43,14 +43,28 @@ function Memory:getYoutubeClipLink()
 	return "https://youtube.com/watch?w="..self:getClipID()
 end
 
+function Memory:getPositionCenteredToTexture()
+	local tex = self:getGameTexture()
+	local x, y = self:getPosition()
+
+	if tex == nil then
+		return x, y
+	end
+
+	local w, h = tex:getDimensions()
+
+	return x-(w*MEMORY_SCALE)/2, y-(h*MEMORY_SCALE)/2
+end
+
 function Memory:draw()
 	love.graphics.setColor(self:getColor())
 	local tex = self:getGameTexture()
 	if tex then
-		local x, y = self:getPosition()
-		love.graphics.draw(tex, x, y, 0, 0.5, 0.5)
+		local x, y = self:getPositionCenteredToTexture()
+		love.graphics.draw(tex, x, y, 0, MEMORY_SCALE, MEMORY_SCALE)
 	end
 
+	love.graphics.setColor(0, 0, 1, 1)
 	TubeTrailObject.draw(self)
 end
 
