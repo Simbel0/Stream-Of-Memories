@@ -9,6 +9,7 @@ Utils = require("src.utils")
 Object = require("src.objects.object")
 TubeNode = require("src.objects.TubeNode")
 TubePath = require("src.objects.TubePath")
+TubeTrailObject = require("src.objects.TubeTrailObject")
 
 GameStates = {
 	menu = require("src.states.menu"),
