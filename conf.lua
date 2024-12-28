@@ -6,8 +6,8 @@ function love.conf(t)
 	t.window.title = "Neuro Game"
 
 	-- Undertale real
-	t.window.width = 640
-    t.window.height = 480
+	t.window.width = 960
+    t.window.height = 540
 
     -- Thinking about phones I guess
     t.externalstorage = true
