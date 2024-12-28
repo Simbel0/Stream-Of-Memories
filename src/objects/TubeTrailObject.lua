@@ -9,7 +9,7 @@ function TubeTrailObject:init(path, speed)
 
 	self.path = path
 
-	self.lerp_speed = speed or 50
+	self.lerp_speed = speed or GENERAL_MEMORY_SPEED
 	self.lerp_progress = 0
 	self.current_index = 1
 end
@@ -36,6 +36,8 @@ function TubeTrailObject:update()
         self.current_index = self.current_index + 1
         self.lerp_progress = 0
     end
+
+    --print(self:getPosition())
 end
 
 function TubeTrailObject:getPosition()

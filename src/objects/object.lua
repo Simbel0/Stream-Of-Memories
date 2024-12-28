@@ -8,9 +8,12 @@ local function SortChildren(obj)
 	table.sort( obj.children, function(a, b) return a.layer < b.layer end )
 end
 
-function Object:init(x, y)
+function Object:init(x, y, w, h)
 	self.x = x or 0
 	self.y = y or 0
+
+	self.width = w or 0
+	self.height = h or 0
 
 	self.class_id = "Object"
 
@@ -72,7 +75,6 @@ function Object:update()
 end
 
 function Object:draw()
-	print(self.class_id.." - "..Utils.dump({self:getColor()}))
 	for i,child in ipairs(self.children) do
 		child:draw()
 	end

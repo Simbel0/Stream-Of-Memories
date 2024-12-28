@@ -6,6 +6,17 @@ function game:init()
 
 	self.score = 0
 	self.best_score = 0
+
+	self.tube1 = TubePath({
+		{100, 0},
+		{120, 60},
+		{150, 100},
+		{250, 250},
+		{270, 290}
+	})
+	self.stage:addChild(self.tube1)
+
+	self.stage:addChild(MemoryFactory:createMemory(self.tube1, "gymbag"))
 end
 
 function game:enter()

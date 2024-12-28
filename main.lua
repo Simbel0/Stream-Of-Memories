@@ -11,6 +11,11 @@ TubeNode = require("src.objects.TubeNode")
 TubePath = require("src.objects.TubePath")
 TubeTrailObject = require("src.objects.TubeTrailObject")
 
+Memory = require("src.objects.Memory")
+Gymbag = require("src.objects.memories.Gymbag")
+Tower = require("src.objects.memories.Tower")
+MemoryFactory = require("src.objects.MemoryFactory")
+
 GameStates = {
 	menu = require("src.states.menu"),
 	game = require("src.states.game"),
