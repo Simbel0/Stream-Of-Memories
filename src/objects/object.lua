@@ -51,6 +51,16 @@ function Object:removeChild(obj)
 	end
 end
 
+function Object:remove()
+	if self.parent then
+		self.parent:removeChild(self)
+	end
+
+	for i,child in ipairs(self.children) do
+		child:remove()
+	end
+end
+
 function Object:getPosition()
     if self.parent then
         local px, py = self.parent:getPosition()
