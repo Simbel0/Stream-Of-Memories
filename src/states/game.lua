@@ -9,6 +9,10 @@ function game:init()
 
 	self.game_timer = 0
 
+	Signal.register("memoryInNeuro", function(memory)
+		print("Signal test for "..memory:getName())
+	end)
+
 	self.tube1 = TubePath({
 		{100, 0},
 		{120, 60},

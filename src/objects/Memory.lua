@@ -15,8 +15,6 @@ function Memory:init(path, speed)
 	self.clipLink = ""
 
 	self.isReal = false
-
-	Signal.emit("memoryInNeuro")
 end
 
 function Memory:getName()
@@ -54,6 +52,13 @@ function Memory:getPositionCenteredToTexture()
 	local w, h = tex:getDimensions()
 
 	return x-(w*MEMORY_SCALE)/2, y-(h*MEMORY_SCALE)/2
+end
+
+function Memory:onPathCompleted()
+	TubeTrailObject.onPathCompleted(self)
+
+	print("Memory "..self:getName().." has done its path")
+	Signal.emit("memoryInNeuro", self)
 end
 
 function Memory:draw()

@@ -3,6 +3,7 @@ utf8 = require("utf8")
 Class = require("src.hump.class")
 GameStateManager = require("src.hump.gamestate")
 Timer = require("src.hump.timer")
+Signal = require("src.hump.signal")
 
 Utils = require("src.utils")
 

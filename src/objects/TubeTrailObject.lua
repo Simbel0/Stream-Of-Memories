@@ -12,12 +12,16 @@ function TubeTrailObject:init(path, speed)
 	self.lerp_speed = speed or GENERAL_MEMORY_SPEED
 	self.lerp_progress = 0
 	self.current_index = 1
+
+	self.pathDone = false
 end
 
 function TubeTrailObject:update()
 	Object.update(self)
 	if self.path == nil then return end
+	if self.pathDone then return end
 	if self.current_index >= self.path:getNodeAmount() then
+		self:onPathCompleted()
 		return
 	end
 
@@ -55,6 +59,10 @@ function TubeTrailObject:getPosition()
     local y = y1 + (y2 - y1) * self.lerp_progress
 
     return x, y
+end
+
+function TubeTrailObject:onPathCompleted()
+	self.pathDone = true
 end
 
 return TubeTrailObject
