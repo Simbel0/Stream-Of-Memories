@@ -7,6 +7,8 @@ function game:init()
 	self.score = 0
 	self.best_score = 0
 
+	self.game_timer = 0
+
 	self.tube1 = TubePath({
 		{100, 0},
 		{120, 60},
@@ -33,6 +35,8 @@ end
 
 function game:update()
 	self.stage:update()
+
+	self.game_timer = self.game_timer + DT
 end
 
 function game:draw()
@@ -40,6 +44,8 @@ function game:draw()
 
 	love.graphics.setColor(1, 1, 1, 1)
 	love.graphics.print("Game text", 100, 199)
+
+	love.graphics.print("Time: "..math.floor(self.game_timer), 20, 100)
 end
 
 return game
