@@ -27,7 +27,7 @@ function game:init()
 	self.health_bar_max_width = w
 	self.health_bar_width = self.health_bar_max_width
 
-	Signal.register("healthChanged", function()
+	Signal.register("game-healthChanged", function()
 		self.health_bar_width = (self.neuro_life*self.health_bar_max_width)/self.neuro_max_life
 
 		local x, y, w, h = self.health_quad:getViewport()
@@ -35,7 +35,7 @@ function game:init()
 		self.health_quad:setViewport(x, y, self.health_bar_width, h)
 	end)
 
-	Signal.register("memoryInNeuro", function(memory)
+	Signal.register("game-memoryInNeuro", function(memory)
 		print("Signal test for "..memory:getName())
 
 		local score = 20
@@ -141,7 +141,7 @@ function game:changeLife(amount)
 		self:gameOver()
 	end
 
-	Signal.emit("healthChanged")
+	Signal.emit("game-healthChanged")
 end
 
 function game:gameOver()

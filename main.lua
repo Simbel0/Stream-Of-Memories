@@ -28,13 +28,17 @@ GameStates = {
 	debug = require("src.states.debug"),
 }
 function GameStateManager:changeState(state)
-	print(state)
 	self.switch(GameStates[state])
 end
 
 function love.load()
 	require("src.vars")
 	print("GAME START: Neuro Game is started!")
+
+	for id,state in pairs(GameStates) do
+		GameStates[id].id = id
+		GameStates[id].getId = function(self) return self.id end
+	end
 
 	main_font = love.graphics.newFont("assets/fonts/coffee.ttf", 32)
 

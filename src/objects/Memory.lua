@@ -60,7 +60,7 @@ function Memory:onPathCompleted()
 	TubeTrailObject.onPathCompleted(self)
 
 	print("Memory "..self:getName().." has done its path")
-	Signal.emit("memoryInNeuro", self)
+	Signal.emit("game-memoryInNeuro", self)
 end
 
 function Memory:update()
