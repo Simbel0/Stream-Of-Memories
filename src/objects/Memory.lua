@@ -15,6 +15,8 @@ function Memory:init(path, speed)
 	self.clipLink = ""
 
 	self.isReal = false
+
+	self.nameTextAlpha = 0
 end
 
 function Memory:getName()
@@ -61,12 +63,42 @@ function Memory:onPathCompleted()
 	Signal.emit("memoryInNeuro", self)
 end
 
+function Memory:update()
+	TubeTrailObject.update(self)
+
+	if self:mouseHovered(love.mouse:getPosition()) then
+		self.nameTextAlpha = self.nameTextAlpha + 1*DT
+	else
+		self.nameTextAlpha = self.nameTextAlpha - 1*DT
+	end
+	if self.nameTextAlpha > 1 then self.nameTextAlpha = 1 elseif
+	   self.nameTextAlpha < 0 then self.nameTextAlpha = 0 end
+
+end
+
 function Memory:draw()
 	love.graphics.setColor(self:getColor())
 	local tex = self:getGameTexture()
+	local x, y = self:getPositionCenteredToTexture()
 	if tex then
-		local x, y = self:getPositionCenteredToTexture()
 		love.graphics.draw(tex, x, y, 0, MEMORY_SCALE, MEMORY_SCALE)
+	end
+
+	local r, g, b = self:getColor()
+	love.graphics.setColor(r, g, b, self.nameTextAlpha)
+	love.graphics.print(self:getName(), x, y-32)
+
+	if DEBUG_VIEW and tex then
+		local x, y = self:getPosition()
+		local w, h = tex:getDimensions()
+
+		x = x - (w*MEMORY_SCALE)/2
+		y = y - (h*MEMORY_SCALE)/2
+
+
+
+		love.graphics.setColor(1, 0, 0, 1)
+		love.graphics.rectangle("line", x, y, w*MEMORY_SCALE, h*MEMORY_SCALE)
 	end
 
 	love.graphics.setColor(0, 0, 1, 1)
@@ -78,14 +110,14 @@ function Memory:onMousePressed(mX, mY, button, istouch, presses)
 	TubeTrailObject.onMousePressed(self, mX, mY, button, istouch, presses)
 	if button == 1 then
 
-		if self:isClickedOn(mX, mY) then
+		if self:mouseHovered(mX, mY) then
 			print("Clicked")
 			self:remove()
 		end
 	end
 end
 
-function Memory:isClickedOn(mX, mY)
+function Memory:mouseHovered(mX, mY)
 	local x, y = self:getPosition()
 	local tex = self:getGameTexture()
 
@@ -97,6 +129,9 @@ function Memory:isClickedOn(mX, mY)
 	else
 		return false
 	end
+
+	x = x - (w*MEMORY_SCALE)/2
+	y = y - (h*MEMORY_SCALE)/2
 
 	print(x, y, mX, mY, self:getRelativePosition())
 
