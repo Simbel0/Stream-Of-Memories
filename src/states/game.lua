@@ -39,6 +39,13 @@ function game:init()
 	end
 
 	self.stage:addChild(MemoryFactory:createMemory(self.tubes[1], "gymbag"))
+
+	Timer.after(2, function()
+		self.stage:addChild(MemoryFactory:createMemory(self.tubes[1], "tower"))
+	end)
+	Timer.after(4, function()
+		self.stage:addChild(MemoryFactory:createMemory(self.tubes[1], "tower"))
+	end)
 end
 
 function game:enter()

@@ -11,7 +11,7 @@ function Gymbag:init(path, speed)
 	self.streamTexture = nil
 	self.clipLink = ""
 
-	self.isReal = true
+	self.isReal = false
 end
 
 return Gymbag
