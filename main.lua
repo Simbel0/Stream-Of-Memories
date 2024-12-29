@@ -1,6 +1,11 @@
 utf8 = require("utf8")
 
 Class = require("src.hump.class")
+function Class.isClass(class)
+	local mt = getmetatable(class)
+    return mt and mt.__call ~= nil
+end
+
 GameStateManager = require("src.hump.gamestate")
 Timer = require("src.hump.timer")
 Signal = require("src.hump.signal")

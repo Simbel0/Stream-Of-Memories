@@ -87,7 +87,7 @@ function game:update()
 end
 
 function game:spawnNewMemoryInTube(index)
-	self.stage:addChild(MemoryFactory:createMemory(self.tubes[index], "gymbag"))
+	self.stage:addChild(MemoryFactory:createMemory(self.tubes[index], MemoryFactory:getRandomMemory()))
 end
 
 function game:addTube(points)

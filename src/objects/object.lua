@@ -34,6 +34,9 @@ function Object:setLayer(layer)
 end
 
 function Object:addChild(obj)
+	if not obj then
+		error("No object was given to Object:addChild()")
+	end
 	table.insert(self.children, obj)
 	if obj.parent ~= nil then
 		obj.parent:removeChild(obj)
