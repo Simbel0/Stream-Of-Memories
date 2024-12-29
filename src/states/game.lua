@@ -12,6 +12,10 @@ function game:init()
 	self.neuro_life = 100
 	self.neuro_max_life = 100
 
+	self.neuro_ouchie = 10
+	self.ouchie_increased = false
+	self.neuro_ouchie_reset_timer = nil
+
 	self.health_bar_1 = love.graphics.newImage("assets/sprites/ui/health_bar_1.png")
 	self.health_bar_2 = love.graphics.newImage("assets/sprites/ui/health_bar_2.png")
 	self.health_bar_health = love.graphics.newImage("assets/sprites/ui/health_bar_health.png")
@@ -35,8 +39,10 @@ function game:init()
 		print("Signal test for "..memory:getName())
 
 		local score = 20
+		local ouch_mult = 1
 		if not memory.isReal then
 			score = -score
+			ouch_mult = -1
 		end
 
 		self.score = self.score + score
@@ -44,7 +50,7 @@ function game:init()
 			self.best_score = self.score
 		end
 
-		self:changeLife(score)
+		self:changeLife(self.neuro_ouchie*ouch_mult)
 
 		memory:remove()
 	end)
@@ -104,6 +110,14 @@ function game:update()
 	self.stage:update()
 
 	self.game_timer = self.game_timer + DT
+
+	if math.floor(self.game_timer)%60 == 0 and not self.ouchie_increased then
+		self.neuro_ouchie = self.neuro_ouchie + 1
+		self.ouchie_increased = true
+		self.neuro_ouchie_reset_timer = Timer.after(1, function() -- what a nice way to do that
+			self.ouchie_increased = false
+		end)
+	end
 
 	for i,timer in ipairs(self.tubes_timer) do
 		self.tubes_timer[i] = timer + DT
