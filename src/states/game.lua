@@ -4,18 +4,6 @@ function game:init()
 	print("Init Game State")
 	self.stage = Object()
 
-	self.score = 0
-	self.best_score = 0
-
-	self.game_timer = 0
-
-	self.neuro_life = 100
-	self.neuro_max_life = 100
-
-	self.neuro_ouchie = 10
-	self.ouchie_increased = false
-	self.neuro_ouchie_reset_timer = nil
-
 	self.health_bar_1 = love.graphics.newImage("assets/sprites/ui/health_bar_1.png")
 	self.health_bar_2 = love.graphics.newImage("assets/sprites/ui/health_bar_2.png")
 	self.health_bar_health = love.graphics.newImage("assets/sprites/ui/health_bar_health.png")
@@ -26,6 +14,9 @@ function game:init()
 	local _, _, w, _ = self.health_quad:getViewport()
 	self.health_bar_max_width = w
 	self.health_bar_width = self.health_bar_max_width
+
+	self.tubes = {}
+	self.tubes_timer = {}
 
 	Signal.register("game-healthChanged", function()
 		self.health_bar_width = (self.neuro_life*self.health_bar_max_width)/self.neuro_max_life
@@ -55,22 +46,7 @@ function game:init()
 		memory:remove()
 	end)
 
-	self.tubes = {
-		TubePath({
-			{100, 0},
-			{120, 60},
-			{150, 100},
-			{250, 250},
-			{270, 290}
-		})
-	}
-	self.tubes_timer = {}
-	for i,tube in ipairs(self.tubes) do
-		self.stage:addChild(tube)
-		table.insert(self.tubes_timer, 0)
-	end
-
-	self.stage:addChild(MemoryFactory:createMemory(self.tubes[1], "gymbag"))
+	--self.stage:addChild(MemoryFactory:createMemory(self.tubes[1], "gymbag"))
 
 	--[[Timer.after(2, function()
 		self.stage:addChild(MemoryFactory:createMemory(self.tubes[1], "tower"))
@@ -91,6 +67,28 @@ end
 
 function game:enter()
 	print("Entered Game State")
+
+	self.score = 0
+	self.best_score = 0
+
+	self.game_timer = 0
+
+	self.neuro_life = 100
+	self.neuro_max_life = 100
+
+	self.neuro_ouchie = 10
+	self.ouchie_increased = false
+	self.neuro_ouchie_reset_timer = nil
+
+	self:resetTubes()
+	self:addTube({
+		{100, 0},
+		{120, 60},
+		{150, 100},
+		{250, 250},
+		{270, 290}
+	})
+	self:spawnNewMemoryInTube(1)
 end
 
 function game:keypressed(key)
@@ -157,6 +155,15 @@ function game:addTube(points)
 	self.stage:addChild(tube)
 	table.insert(self.tubes, tube)
 	table.insert(self.tubes_timer, 0)
+end
+
+function game:resetTubes()
+	for i=#self.tubes, 1, -1 do
+		local tube = table.remove(self.tubes, i)
+		tube:remove()
+	end
+	self.tubes = {}
+	self.tubes_timer = {}
 end
 
 function game:draw()
