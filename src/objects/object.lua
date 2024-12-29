@@ -99,4 +99,10 @@ function Object:draw()
 	end
 end
 
+function Object:onMousePressed(x, y, button, istouch, presses)
+	for i,child in ipairs(self.children) do
+		child:onMousePressed(x, y, button, istouch, presses)
+	end
+end
+
 return Object

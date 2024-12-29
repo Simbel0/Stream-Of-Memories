@@ -71,6 +71,11 @@ function game:keypressed(key)
     end
 end
 
+function game:mousepressed( x, y, button, istouch, presses )
+	--print(x, y, button, istouch, presses)
+	self.stage:onMousePressed(x, y, button, istouch, presses)
+end
+
 function game:update()
 	self.stage:update()
 
@@ -78,7 +83,7 @@ function game:update()
 
 	for i,timer in ipairs(self.tubes_timer) do
 		self.tubes_timer[i] = timer + DT
-		print(i.."-"..timer)
+		--print(i.."-"..timer)
 		if timer >= MEMORY_SPAWN_RATE then
 			self.tubes_timer[i] = timer - MEMORY_SPAWN_RATE
 			self:spawnNewMemoryInTube(i)

@@ -73,4 +73,37 @@ function Memory:draw()
 	TubeTrailObject.draw(self)
 end
 
+function Memory:onMousePressed(mX, mY, button, istouch, presses)
+	print("Running Memory's onMousePressed")
+	TubeTrailObject.onMousePressed(self, mX, mY, button, istouch, presses)
+	if button == 1 then
+
+		if self:isClickedOn(mX, mY) then
+			print("Clicked")
+			self:remove()
+		end
+	end
+end
+
+function Memory:isClickedOn(mX, mY)
+	local x, y = self:getPosition()
+	local tex = self:getGameTexture()
+
+	local w, h
+	if tex then
+		w, h = tex:getDimensions()
+	elseif self.width and self.height then
+		w, h = self.width, self.height
+	else
+		return false
+	end
+
+	print(x, y, mX, mY, self:getRelativePosition())
+
+	return mX > x and
+		   mX < x+(w*MEMORY_SCALE) and
+		   mY > y and
+		   mY < y+(h*MEMORY_SCALE)
+end
+
 return Memory
