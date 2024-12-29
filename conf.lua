@@ -5,7 +5,6 @@ function love.conf(t)
 
 	t.window.title = "Stream of Memories"
 
-	-- Undertale real
 	t.window.width = 960
     t.window.height = 540
 
