@@ -9,6 +9,28 @@ function game:init()
 
 	self.game_timer = 0
 
+	self.neuro_life = 100
+	self.neuro_max_life = 100
+
+	self.health_bar_1 = love.graphics.newImage("assets/sprites/ui/health_bar_1.png")
+	self.health_bar_2 = love.graphics.newImage("assets/sprites/ui/health_bar_2.png")
+	self.health_bar_health = love.graphics.newImage("assets/sprites/ui/health_bar_health.png")
+
+	local w, h = self.health_bar_health:getDimensions()
+	self.health_quad = love.graphics.newQuad(0, 0, w, h, w, h)
+
+	local _, _, w, _ = self.health_quad:getViewport()
+	self.health_bar_max_width = w
+	self.health_bar_width = self.health_bar_max_width
+
+	Signal.register("healthChanged", function()
+		self.health_bar_width = (self.neuro_life*self.health_bar_max_width)/self.neuro_max_life
+
+		local x, y, w, h = self.health_quad:getViewport()
+
+		self.health_quad:setViewport(x, y, self.health_bar_width, h)
+	end)
+
 	Signal.register("memoryInNeuro", function(memory)
 		print("Signal test for "..memory:getName())
 
@@ -21,6 +43,8 @@ function game:init()
 		if self.score > self.best_score then
 			self.best_score = self.score
 		end
+
+		self:changeLife(score)
 
 		memory:remove()
 	end)
@@ -91,6 +115,25 @@ function game:update()
 	end
 end
 
+function game:changeLife(amount)
+	self.neuro_life = self.neuro_life + amount
+
+	if self.neuro_life > self.neuro_max_life then
+		self.neuro_life = self.neuro_max_life
+	end
+
+	if self.neuro_life <= 0 then
+		self.neuro_life = 0
+		self:gameOver()
+	end
+
+	Signal.emit("healthChanged")
+end
+
+function game:gameOver()
+	print("Whoops! You losest!")
+end
+
 function game:spawnNewMemoryInTube(index)
 	self.stage:addChild(MemoryFactory:createMemory(self.tubes[index], MemoryFactory:getRandomMemory()))
 end
@@ -111,6 +154,12 @@ function game:draw()
 	love.graphics.print("Time: "..math.floor(self.game_timer), 20, 100)
 	love.graphics.print("Score: "..self.score, 20, 140)
 	love.graphics.print("Best Score: "..self.best_score, 20, 180)
+
+	love.graphics.draw(self.health_bar_health, self.health_quad, 59, (SCREEN_HEIGHT-self.health_bar_1:getHeight()-10)+56)
+	love.graphics.draw(self.health_bar_1, 0, SCREEN_HEIGHT-self.health_bar_1:getHeight()-10)
+	if self.score >= 0 then
+		love.graphics.draw(self.health_bar_2, 0, SCREEN_HEIGHT-self.health_bar_1:getHeight()-10)
+	end
 end
 
 return game

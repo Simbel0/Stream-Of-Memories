@@ -133,7 +133,7 @@ function Memory:mouseHovered(mX, mY)
 	x = x - (w*MEMORY_SCALE)/2
 	y = y - (h*MEMORY_SCALE)/2
 
-	print(x, y, mX, mY, self:getRelativePosition())
+	--print(x, y, mX, mY, self:getRelativePosition())
 
 	return mX > x and
 		   mX < x+(w*MEMORY_SCALE) and
