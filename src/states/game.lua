@@ -34,17 +34,28 @@ function game:init()
 			{270, 290}
 		})
 	}
+	self.tubes_timer = {}
 	for i,tube in ipairs(self.tubes) do
 		self.stage:addChild(tube)
+		table.insert(self.tubes_timer, 0)
 	end
 
 	self.stage:addChild(MemoryFactory:createMemory(self.tubes[1], "gymbag"))
 
-	Timer.after(2, function()
+	--[[Timer.after(2, function()
 		self.stage:addChild(MemoryFactory:createMemory(self.tubes[1], "tower"))
 	end)
 	Timer.after(4, function()
 		self.stage:addChild(MemoryFactory:createMemory(self.tubes[1], "tower"))
+	end)]]
+	Timer.after(4, function()
+		self:addTube({
+			{600, 0},
+			{550, 100},
+			{500, 140},
+			{440, 170},
+			{310, 290}
+		})
 	end)
 end
 
@@ -64,6 +75,26 @@ function game:update()
 	self.stage:update()
 
 	self.game_timer = self.game_timer + DT
+
+	for i,timer in ipairs(self.tubes_timer) do
+		self.tubes_timer[i] = timer + DT
+		print(i.."-"..timer)
+		if timer >= MEMORY_SPAWN_RATE then
+			self.tubes_timer[i] = timer - MEMORY_SPAWN_RATE
+			self:spawnNewMemoryInTube(i)
+		end
+	end
+end
+
+function game:spawnNewMemoryInTube(index)
+	self.stage:addChild(MemoryFactory:createMemory(self.tubes[index], "gymbag"))
+end
+
+function game:addTube(points)
+	local tube = TubePath(points)
+	self.stage:addChild(tube)
+	table.insert(self.tubes, tube)
+	table.insert(self.tubes_timer, 0)
 end
 
 function game:draw()
