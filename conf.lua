@@ -1,9 +1,9 @@
 function love.conf(t)
-	t.identity = "neurogame"
+	t.identity = "neuromemories"
 
 	t.version = "11.0"
 
-	t.window.title = "Neuro Game"
+	t.window.title = "Stream of Memories"
 
 	-- Undertale real
 	t.window.width = 960
