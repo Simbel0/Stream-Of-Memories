@@ -9,7 +9,7 @@ function Gymbag:init(path, speed)
 	became one of the few representations of the Swarm, sometimes even being a drone!
 	Chat reflects the streamer, I guess.]]
 
-	self.gameTexture = love.graphics.newImage("assets/sprites/memories/gymbag.png")
+	self.gameTexture = love.graphics.newImage("assets/sprites/memories/iconbasegymbag.png")
 
 	self.streamTexture = nil
 	self.clipLink = ""
