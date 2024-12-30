@@ -51,9 +51,17 @@ function GameStateManager:changeState(state, use_switch, ...)
 	end
 end
 
+Musics = {}
+
 function love.load()
 	require("src.vars")
 	print("GAME START: Neuro Game is started!")
+
+	Musics["LIFE"] = love.audio.newSource("assets/music/LIFE.mp3", "stream")
+	Musics["LIFEInst"] = love.audio.newSource("assets/music/LIFE-inst.mp3", "stream")
+
+	Musics["LIFE"]:setLooping(true)
+	Musics["LIFEInst"]:setLooping(true)
 
 	for id,state in pairs(GameStates) do
 		GameStates[id].id = id

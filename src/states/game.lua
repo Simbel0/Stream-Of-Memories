@@ -43,9 +43,18 @@ function game:init()
 	Signal.register("game-memoryInNeuro", function(memory)
 		local score = 20
 		local ouch_mult = 1
+		local add_vol = 0.2
 		if not memory.isReal then
 			score = math.floor(score*-1.5)
+			add_vol = -0.2
 			ouch_mult = -2
+		end
+
+		self.inst_vol = self.inst_vol + add_vol
+		if self.inst_vol > self.max_inst_vol then
+			self.inst_vol = self.max_inst_vol
+		elseif self.inst_vol < 0 then
+			self.inst_vol = 0
 		end
 
 		self.score = self.score + score
@@ -97,6 +106,15 @@ function game:enter()
 	self.ouchie_increased = false
 	self.neuro_ouchie_reset_timer = nil
 
+	self.inst_vol = 1
+	self.voice_vol = 0
+
+	self.max_inst_vol = 1
+	self.max_voice_vol = 1
+
+	Musics["LIFEInst"]:play()
+	Musics["LIFE"]:play()
+
 	self:resetTubes()
 	self:addTube({
 		{-40, 240},
@@ -116,6 +134,13 @@ function game:enter()
 	self:spawnNewMemoryInTube()
 end
 
+function game:leave()
+	print("leave")
+
+	Musics["LIFE"]:stop()
+	Musics["LIFEInst"]:stop()
+end
+
 function game:keypressed(key)
 	if DEBUG_VIEW and pressedCtrl() then
 	    if key == "k" then
@@ -133,6 +158,17 @@ end
 
 function game:update()
 	self.stage:update()
+
+	Musics["LIFEInst"]:setVolume(math.max(self.inst_vol-self.voice_vol, 0))
+
+	if self.game_timer > 150 then
+		self.voice_vol = self.voice_vol + DT/20
+		if self.voice_vol > self.max_voice_vol then
+			self.voice_vol = self.max_voice_vol
+		end
+	end
+
+	Musics["LIFE"]:setVolume(self.voice_vol)
 
 	self.game_timer = self.game_timer + DT
 
