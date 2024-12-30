@@ -5,7 +5,9 @@ function game:init()
 	self.stage = Object()
 
 	self.background = love.graphics.newImage("assets/sprites/neuro_room/backgroundfinal.png")
+
 	self.neuro = love.graphics.newImage("assets/sprites/neuro_room/neurofinal.png")
+	self.neuro_hair = love.graphics.newImage("assets/sprites/neuro_room/neurofinalhair.png")
 
 	self.tubes_lower_in = love.graphics.newImage("assets/sprites/neuro_room/tubesinside2.png")
 	self.tubes_lower_out = love.graphics.newImage("assets/sprites/neuro_room/tubesoutside2.png")
@@ -260,6 +262,10 @@ function game:draw()
 	if #self.tubes > 4 then
 		love.graphics.draw(self.tubes_high_in, 0, self.tubes[5].y-120, 0, 1)
 		love.graphics.draw(self.tubes_high_out, 0, self.tubes[5].y-120, 0, 1)
+
+		if not self.tubes[5].drop_anim then
+			love.graphics.draw(self.neuro_hair, 0, self.tubes[5].y-120, 0, 1)
+		end
 	end
 
 	if #self.tubes > 2 then
