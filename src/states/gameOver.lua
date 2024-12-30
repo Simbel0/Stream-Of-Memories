@@ -59,7 +59,7 @@ function gameOver:update()
 	self.timer = self.timer + DT*10
 	--print(self.timer)
 
-	self.frame_timer = self.frame_timer + 20*DT
+	self.frame_timer = self.frame_timer + 10*DT
 	self.frame = math.floor(self.frame_timer) + 1
 	if self.frame > #self.static_frames then
 		self.frame_timer = 0
