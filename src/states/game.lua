@@ -43,7 +43,7 @@ function game:init()
 		local ouch_mult = 1
 		if not memory.isReal then
 			score = math.floor(score*-1.5)
-			ouch_mult = -1
+			ouch_mult = -2
 		end
 
 		self.score = self.score + score
@@ -133,48 +133,64 @@ function game:update()
 
 	if math.floor(self.game_timer)%15 == 0 and not self.ouchie_increased then
 		self.neuro_ouchie = self.neuro_ouchie + 1
+		if self.game_timer >= 120 then
+			self.neuro_ouchie = self.neuro_ouchie + 1
+		end
 		self.ouchie_increased = true
 		self.neuro_ouchie_reset_timer = Timer.after(1, function() -- what a nice way to do that
 			self.ouchie_increased = false
 		end)
 	end
 
-	if self.game_timer > 3 and #self.tubes == 2 then
+	if self.game_timer > 30 and #self.tubes == 2 then
 		self:addTube({
 			{60, -60},
 			{75, 0},
 			{160, 110},
 			{290, 230},
 			{430, 350}
-		})
+		}, true)
 		self:addTube({
 			{925, -60},
 			{915, 0},
 			{820, 130},
 			{690, 255},
 			{570, 350}
-		})
-	elseif self.game_timer > 3 and #self.tubes == 4 then
+		}, true)
+	elseif self.game_timer > 60 and #self.tubes == 4 then
 		self:addTube({
 			{310, -60},
 			{320, 0},
 			{365, 110},
 			{435, 235}
-		})
+		}, true)
 		self:addTube({
 			{675, -60},
 			{685, 0},
 			{630, 120},
 			{560, 235}
-		})
+		}, true)
+	end
+
+	if self.game_timer >= 2 then
+		if math.floor(self.game_timer)%5 == 0 then
+			if MEMORY_SPAWN_RATE > 1 then
+				MEMORY_SPAWN_RATE = MEMORY_SPAWN_RATE - 0.15*DT
+			end
+			if GENERAL_MEMORY_SPEED < 100 then 
+				GENERAL_MEMORY_SPEED = GENERAL_MEMORY_SPEED + 5*DT
+			end
+		end
 	end
 
 	for i,timer in ipairs(self.tubes_timer) do
-		self.tubes_timer[i] = timer + DT
-		--print(i.."-"..timer)
-		if timer >= MEMORY_SPAWN_RATE then
-			self.tubes_timer[i] = timer - MEMORY_SPAWN_RATE
-			self:spawnNewMemoryInTube(i)
+		if not self.tubes[i].drop_anim then
+			self.tubes_timer[i] = timer + DT
+			--print(i.."-"..timer)
+			if timer >= MEMORY_SPAWN_RATE then
+				self.tubes_timer[i] = timer - MEMORY_SPAWN_RATE
+				self:spawnNewMemoryInTube(i)
+			end
 		end
 	end
 end
@@ -200,18 +216,31 @@ function game:gameOver()
 	GameStateManager:changeState("gameOver")
 end
 
-function game:spawnNewMemoryInTube(index)
-	if index == nil then
-		index = love.math.random(1, #self.tubes)
+function game:getAvailableTubes()
+	local tubes = {}
+	for i,tube in ipairs(self.tubes) do
+		if not tube.drop_anim then
+			table.insert(tubes, tube)
+		end
 	end
-	self.stage:addChild(MemoryFactory:createMemory(self.tubes[index], MemoryFactory:getRandomMemory()))
+
+	return tubes
 end
 
-function game:addTube(points)
+function game:spawnNewMemoryInTube(index)
+	local available_tubes = self:getAvailableTubes()
+	if index == nil then
+		index = love.math.random(1, #available_tubes)
+	end
+	self.stage:addChild(MemoryFactory:createMemory(available_tubes[index], MemoryFactory:getRandomMemory()))
+end
+
+function game:addTube(points, drop_anim)
 	local tube = TubePath(points)
+	tube:setDropAnim(drop_anim or false)
 	self.stage:addChild(tube)
 	table.insert(self.tubes, tube)
-	table.insert(self.tubes_timer, 0)
+	table.insert(self.tubes_timer, love.math.random(0, MEMORY_SPAWN_RATE))
 end
 
 function game:resetTubes()
@@ -249,6 +278,10 @@ function game:draw()
 	love.graphics.print("Time: "..math.floor(self.game_timer), 20, 100)
 	love.graphics.print("Score: "..self.score, 20, 140)
 	love.graphics.print("Best Score: "..self.best_score, 20, 180)
+	love.graphics.print("Ouchie Value: "..self.neuro_ouchie, 20, 220)
+
+	love.graphics.print("MEMORY SPAWN: "..MEMORY_SPAWN_RATE, 20, 240)
+	love.graphics.print("MEMORY SPEED: "..GENERAL_MEMORY_SPEED, 20, 280)
 
 	love.graphics.draw(self.health_bar_health, self.health_quad, 59, (SCREEN_HEIGHT-self.health_bar_1:getHeight()-10)+56)
 	love.graphics.draw(self.health_bar_1, 0, SCREEN_HEIGHT-self.health_bar_1:getHeight()-10)

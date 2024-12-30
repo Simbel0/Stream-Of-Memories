@@ -13,6 +13,29 @@ function TubePath:init(path_pos)
 		table.insert(self.nodes, nodeClass)
 		self:addChild(nodeClass)
 	end
+
+	self.drop_anim = false
+end
+
+function TubePath:setDropAnim(bool)
+	self.drop_anim = bool
+	print("Drop: "..tostring(bool))
+	if bool then
+		self.y = -400
+	end
+end
+
+function TubePath:update()
+	if self.drop_anim then
+		self.y = self.y + 50*DT
+		if self.y >= 0 then
+			self.y = 0
+			self.drop_anim = false
+		end
+		return
+	end
+
+	Object.update(self)
 end
 
 function TubePath:getNodeAmount()
