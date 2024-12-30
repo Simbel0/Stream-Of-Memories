@@ -26,9 +26,16 @@ GameStates = {
 	menu = require("src.states.menu"),
 	game = require("src.states.game"),
 	debug = require("src.states.debug"),
+	gameOver = require("src.states.gameOver")
 }
-function GameStateManager:changeState(state)
-	self.switch(GameStates[state])
+function GameStateManager:changeState(state, use_switch, ...)
+	if use_switch == nil then use_switch = true end
+
+	if use_switch then
+		self.switch(GameStates[state], ...)
+	else
+		self.push(GameStates[state], ...)
+	end
 end
 
 function love.load()

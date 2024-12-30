@@ -54,7 +54,7 @@ function game:init()
 	Timer.after(4, function()
 		self.stage:addChild(MemoryFactory:createMemory(self.tubes[1], "tower"))
 	end)]]
-	Timer.after(4, function()
+	--[[Timer.after(4, function()
 		self:addTube({
 			{600, 0},
 			{550, 100},
@@ -62,11 +62,13 @@ function game:init()
 			{440, 170},
 			{310, 290}
 		})
-	end)
+	end)]]
 end
 
 function game:enter()
 	print("Entered Game State")
+
+	self.stage = Object()
 
 	self.score = 0
 	self.best_score = 0
@@ -96,6 +98,10 @@ function game:keypressed(key)
     if key == 'a' then
     	print("Pressed a")
         Timer.after(1, function() print("Hello, world!") end)
+    elseif key == "k" then
+    	self.stage:addChild(MemoryFactory:createMemory(self.tubes[love.math.random(1, #self.tubes)], "tower"))
+    elseif key == "g" then
+    	self:gameOver()
     end
 end
 
@@ -144,6 +150,7 @@ end
 
 function game:gameOver()
 	print("Whoops! You losest!")
+	GameStateManager:changeState("gameOver")
 end
 
 function game:spawnNewMemoryInTube(index)
