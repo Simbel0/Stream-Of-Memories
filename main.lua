@@ -12,6 +12,8 @@ Signal = require("src.hump.signal")
 
 Utils = require("src.utils")
 
+JSON = require("src.lib.json")
+
 Object = require("src.objects.object")
 TubeNode = require("src.objects.TubeNode")
 TubePath = require("src.objects.TubePath")
@@ -57,9 +59,15 @@ end
 
 Musics = {}
 
+GlobalData = {}
+
 function love.load()
 	require("src.vars")
 	print("GAME START: Neuro Game is started!")
+
+	if love.filesystem.getInfo("save.json") then
+		GlobalData = JSON.decode(love.filesystem.read("save.json"))
+	end
 
 	local mode = "stream"
 	if love.system.getOS() == "Web" then
@@ -80,6 +88,12 @@ function love.load()
 
 	GameStateManager.registerEvents()
 	GameStateManager:changeState("game")
+end
+
+function love.quit()
+	love.filesystem.write("save.json", JSON.encode(GlobalData))
+
+	return true
 end
 
 function love.update(dt)

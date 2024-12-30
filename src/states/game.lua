@@ -95,7 +95,7 @@ function game:enter()
 	self.stage = Object()
 
 	self.score = 0
-	self.best_score = 0
+	self.best_score = GlobalData.best_score or 0
 
 	self.game_timer = 0
 
@@ -137,6 +137,10 @@ end
 
 function game:leave()
 	print("leave")
+
+	if not GlobalData.best_score or (GlobalData.best_score and self.best_score > GlobalData.best_score) then
+		GlobalData.best_score = self.best_score
+	end
 
 	Musics["LIFE"]:stop()
 	Musics["LIFEInst"]:stop()
