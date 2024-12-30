@@ -135,12 +135,42 @@ function game:update()
 
 	self.game_timer = self.game_timer + DT
 
-	if math.floor(self.game_timer)%60 == 0 and not self.ouchie_increased then
+	if math.floor(self.game_timer)%15 == 0 and not self.ouchie_increased then
 		self.neuro_ouchie = self.neuro_ouchie + 1
 		self.ouchie_increased = true
 		self.neuro_ouchie_reset_timer = Timer.after(1, function() -- what a nice way to do that
 			self.ouchie_increased = false
 		end)
+	end
+
+	if self.game_timer > 3 and #self.tubes == 2 then
+		self:addTube({
+			{60, -60},
+			{75, 0},
+			{160, 110},
+			{290, 230},
+			{430, 350}
+		})
+		self:addTube({
+			{925, -60},
+			{915, 0},
+			{820, 130},
+			{690, 255},
+			{570, 350}
+		})
+	elseif self.game_timer > 3 and #self.tubes == 4 then
+		self:addTube({
+			{310, -60},
+			{320, 0},
+			{365, 110},
+			{435, 235}
+		})
+		self:addTube({
+			{675, -60},
+			{685, 0},
+			{630, 120},
+			{560, 235}
+		})
 	end
 
 	for i,timer in ipairs(self.tubes_timer) do
@@ -201,9 +231,19 @@ function game:draw()
 
 	love.graphics.draw(self.background, 0, 0, 0, 1)
 	love.graphics.draw(self.neuro, 0, -120, 0, 1)
-	
-	love.graphics.draw(self.tubes_lower_in, 0, -120, 0, 1)
-	love.graphics.draw(self.tubes_lower_out, 0, -120, 0, 1)
+
+	if #self.tubes > 4 then
+		love.graphics.draw(self.tubes_high_in, 0, self.tubes[5].y-120, 0, 1)
+		love.graphics.draw(self.tubes_high_out, 0, self.tubes[5].y-120, 0, 1)
+	end
+
+	if #self.tubes > 2 then
+		love.graphics.draw(self.tubes_middle_in, 0, self.tubes[3].y-120, 0, 1)
+		love.graphics.draw(self.tubes_middle_out, 0, self.tubes[3].y-120, 0, 1)
+	end
+
+	love.graphics.draw(self.tubes_lower_in, 0, self.tubes[1].y-120, 0, 1)
+	love.graphics.draw(self.tubes_lower_out, 0, self.tubes[1].y-120, 0, 1)
 
 	self.stage:draw()
 
