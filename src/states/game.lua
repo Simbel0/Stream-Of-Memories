@@ -163,6 +163,7 @@ function game:changeLife(amount)
 	if self.neuro_life <= 0 then
 		self.neuro_life = 0
 		self:gameOver()
+		return
 	end
 
 	Signal.emit("game-healthChanged")
