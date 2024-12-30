@@ -101,6 +101,7 @@ function game:enter()
 
 	self.neuro_life = 100
 	self.neuro_max_life = 100
+	Signal.emit("game-healthChanged")
 
 	self.neuro_ouchie = 10
 	self.ouchie_increased = false
@@ -318,8 +319,8 @@ function game:draw()
 	self.stage:draw()
 
 	love.graphics.setColor(1, 1, 1, 1)
-	love.graphics.print("Score: "..self.score, 20, 140)
-	love.graphics.print("Best Score: "..self.best_score, 20, 180)
+	love.graphics.print("Score: "..self.score, (SCREEN_WIDTH/2)-160, 10)
+	love.graphics.print("Best Score: "..self.best_score, (SCREEN_WIDTH/2)+40, 10)
 	if DEBUG_VIEW then
 		love.graphics.print("Game text", 100, 199)
 
@@ -330,10 +331,10 @@ function game:draw()
 		love.graphics.print("MEMORY SPEED: "..MEMORY_SPEED, 20, 280)
 	end
 
-	love.graphics.draw(self.health_bar_health, self.health_quad, 59, (SCREEN_HEIGHT-self.health_bar_1:getHeight()-10)+56)
-	love.graphics.draw(self.health_bar_1, 0, SCREEN_HEIGHT-self.health_bar_1:getHeight()-10)
+	love.graphics.draw(self.health_bar_health, self.health_quad, 59*0.7, (SCREEN_HEIGHT-self.health_bar_1:getHeight()+20)+(56*0.72)-1, 0, 0.7)
+	love.graphics.draw(self.health_bar_1, 0, SCREEN_HEIGHT-self.health_bar_1:getHeight()+20, 0, 0.7)
 	if self.score >= 0 then
-		love.graphics.draw(self.health_bar_2, 0, SCREEN_HEIGHT-self.health_bar_1:getHeight()-10)
+		love.graphics.draw(self.health_bar_2, 0, SCREEN_HEIGHT-self.health_bar_1:getHeight()+20, 0, 0.7)
 	end
 
 	printOverlay()
