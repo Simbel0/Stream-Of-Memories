@@ -9,7 +9,7 @@ function TubeTrailObject:init(path, speed)
 
 	self.path = path
 
-	self.lerp_speed = speed or GENERAL_MEMORY_SPEED
+	self.lerp_speed = speed or MEMORY_SPEED
 	self.lerp_progress = 0
 	self.current_index = 1
 

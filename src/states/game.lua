@@ -80,6 +80,9 @@ end
 function game:enter()
 	print("Entered Game State")
 
+	MEMORY_SPAWN_RATE = DEFAULT_MEMORY_SPAWN_RATE
+	MEMORY_SPEED = DEFAULT_MEMORY_SPEED
+
 	self.stage = Object()
 
 	self.score = 0
@@ -144,7 +147,7 @@ function game:update()
 		end)
 	end
 
-	if self.game_timer > 30 and #self.tubes == 2 then
+	if self.game_timer > 60 and #self.tubes == 2 then
 		self:addTube({
 			{60, -60},
 			{75, 0},
@@ -159,7 +162,7 @@ function game:update()
 			{690, 255},
 			{570, 350}
 		}, true)
-	elseif self.game_timer > 60 and #self.tubes == 4 then
+	elseif self.game_timer > 120 and #self.tubes == 4 then
 		self:addTube({
 			{310, -60},
 			{320, 0},
@@ -174,13 +177,13 @@ function game:update()
 		}, true)
 	end
 
-	if self.game_timer >= 2 then
+	if self.game_timer >= 150 then
 		if math.floor(self.game_timer)%5 == 0 then
 			if MEMORY_SPAWN_RATE > 1 then
 				MEMORY_SPAWN_RATE = MEMORY_SPAWN_RATE - 0.15*DT
 			end
-			if GENERAL_MEMORY_SPEED < 100 then 
-				GENERAL_MEMORY_SPEED = GENERAL_MEMORY_SPEED + 5*DT
+			if MEMORY_SPEED < 200 then 
+				MEMORY_SPEED = MEMORY_SPEED + 5*DT
 			end
 		end
 	end
@@ -288,7 +291,7 @@ function game:draw()
 		love.graphics.print("Ouchie Value: "..self.neuro_ouchie, 20, 220)
 
 		love.graphics.print("MEMORY SPAWN: "..MEMORY_SPAWN_RATE, 20, 240)
-		love.graphics.print("MEMORY SPEED: "..GENERAL_MEMORY_SPEED, 20, 280)
+		love.graphics.print("MEMORY SPEED: "..MEMORY_SPEED, 20, 280)
 	end
 
 	love.graphics.draw(self.health_bar_health, self.health_quad, 59, (SCREEN_HEIGHT-self.health_bar_1:getHeight()-10)+56)
