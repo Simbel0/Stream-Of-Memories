@@ -65,8 +65,10 @@ function love.load()
 	require("src.vars")
 	print("GAME START: Neuro Game is started!")
 
-	if love.filesystem.getInfo("save.json") then
-		GlobalData = JSON.decode(love.filesystem.read("save.json"))
+	if love.system.getOS() ~= "Web" then
+		if love.filesystem.getInfo("save.json") then
+			GlobalData = JSON.decode(love.filesystem.read("save.json"))
+		end
 	end
 
 	local mode = "stream"
@@ -91,7 +93,9 @@ function love.load()
 end
 
 function love.quit()
-	love.filesystem.write("save.json", JSON.encode(GlobalData))
+	if love.system.getOS() ~= "Web" then
+		love.filesystem.write("save.json", JSON.encode(GlobalData))
+	end
 
 	return true
 end
