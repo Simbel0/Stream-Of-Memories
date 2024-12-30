@@ -2,9 +2,16 @@ local MemoryFactory = Class()
 
 MemoryFactory.allMemories = {
 	good = {
+		abberdemon=AbberDemon,
+		debt=Debt,
 		gymbag=Gymbag,
+		karaoke=Karaoke,
+		osu=OSU,
+		piratestream=PirateStream,
+		yourreality=YourReality
 	},
 	wrong = {
+		sayitback=SayItBack,
 		tower=Tower
 	}
 }

@@ -18,15 +18,24 @@ TubePath = require("src.objects.TubePath")
 TubeTrailObject = require("src.objects.TubeTrailObject")
 
 Memory = require("src.objects.Memory")
+AbberDemon = require("src.objects.memories.AbberDemon")
+Debt = require("src.objects.memories.Debt")
 Gymbag = require("src.objects.memories.Gymbag")
+Karaoke = require("src.objects.memories.Karaoke")
+OSU = require("src.objects.memories.Osu")
+PirateStream = require("src.objects.memories.PirateStream")
+SayItBack = require("src.objects.memories.SayItBack")
 Tower = require("src.objects.memories.Tower")
+YourReality = require("src.objects.memories.YourReality")
+
 MemoryFactory = require("src.objects.MemoryFactory")
 
 GameStates = {
 	menu = require("src.states.menu"),
 	game = require("src.states.game"),
-	debug = require("src.states.debug"),
-	gameOver = require("src.states.gameOver")
+	gameOver = require("src.states.gameOver"),
+	
+	debug = require("src.states.debug")
 }
 function GameStateManager:changeState(state, use_switch, ...)
 	if use_switch == nil then use_switch = true end

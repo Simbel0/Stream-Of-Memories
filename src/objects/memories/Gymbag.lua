@@ -5,9 +5,9 @@ function Gymbag:init(path, speed)
 
 	self.name = "Gymbag"
 	self.desc = [[According to Neuro-sama, she smells like one of those.
-	Ever since her insane rant about her smelling like a gymbag, it somehow
-	became one of the few representations of the Swarm, sometimes even being a drone!
-	Chat reflects the streamer, I guess.]]
+Ever since her insane rant about her smelling like a gymbag, it somehow
+became one of the few representations of the Swarm, sometimes even being a drone!
+Chat reflects the streamer, I guess.]]
 
 	self.gameTexture = love.graphics.newImage("assets/sprites/memories/iconbasegymbag.png")
 

@@ -1,6 +1,6 @@
-local Gymbag = Class{__includes=Memory}
+local Tower = Class{__includes=Memory}
 
-function Gymbag:init(path, speed)
+function Tower:init(path, speed)
 	Memory.init(self, path, speed)
 
 	self.name = "Tower"
@@ -14,4 +14,4 @@ function Gymbag:init(path, speed)
 	self.isReal = false
 end
 
-return Gymbag
+return Tower
