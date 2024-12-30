@@ -157,6 +157,7 @@ function gameOver:draw()
 	love.graphics.draw(self.static_frames[self.frame], 0, 0)
 
 	if self.typewriter <= 0 then
+		printOverlay()
 		return
 	end
 
@@ -169,6 +170,8 @@ function gameOver:draw()
 		love.graphics.print("[ENTER] Restart", 15, SCREEN_HEIGHT-32*3)
 		love.graphics.print("[ESCAPE] Main Menu", 15, SCREEN_HEIGHT-32*2)
 	end
+
+	printOverlay()
 end
 
 return gameOver
