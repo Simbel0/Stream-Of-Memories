@@ -52,6 +52,7 @@ function gameOver:enter(game)
 > Someone tell Vedal there is a problem with 
   his AI.]]
   	self.skip_text = self.skip_text .. "\n\n> Error Score: "..game.score
+  	self.skip_text = self.skip_text .. "\n> Best Score: "..game.best_score
 end
 
 function gameOver:update()
