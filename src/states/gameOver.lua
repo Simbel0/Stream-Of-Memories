@@ -91,7 +91,6 @@ function gameOver:update()
 end
 
 function gameOver:keypressed(key)
-	print(key)
 	if (key == "return" or key == "space") and (not self.skip_typewriter or not self.done_typing) then
 		print("Skipping")
 		self.skip_typewriter = true
@@ -106,7 +105,6 @@ function gameOver:keypressed(key)
 
 		self.tText = self.skip_text
 	elseif key == "return" and self.done_typing then
-		print("Popping the state")
 		GameStateManager:changeState("game")
 	elseif key == "escape" and self.done_typing then
 		GameStateManager:changeState("menu")

@@ -39,8 +39,6 @@ function game:init()
 	end)
 
 	Signal.register("game-memoryInNeuro", function(memory)
-		print("Signal test for "..memory:getName())
-
 		local score = 20
 		local ouch_mult = 1
 		if not memory.isReal then
@@ -114,15 +112,13 @@ function game:enter()
 end
 
 function game:keypressed(key)
-	print("Game pressed: "..Utils.dump(key))
-    if key == 'a' then
-    	print("Pressed a")
-        Timer.after(1, function() print("Hello, world!") end)
-    elseif key == "k" then
-    	self.stage:addChild(MemoryFactory:createMemory(self.tubes[love.math.random(1, #self.tubes)], "tower"))
-    elseif key == "g" then
-    	self:gameOver()
-    end
+	if pressedCtrl() then
+	    if key == "k" then
+	    	self.stage:addChild(MemoryFactory:createMemory(self.tubes[love.math.random(1, #self.tubes)], "tower"))
+	    elseif key == "g" then
+	    	self:gameOver()
+	    end
+	end
 end
 
 function game:mousepressed( x, y, button, istouch, presses )
@@ -260,8 +256,8 @@ function game:draw()
 		love.graphics.draw(self.health_bar_2, 0, SCREEN_HEIGHT-self.health_bar_1:getHeight()-10)
 	end
 
-	local x, y = love.mouse.getPosition()
-	love.graphics.print("Mouse Pos: ("..x..","..y..")", 20, 180+32)
+	--local x, y = love.mouse.getPosition()
+	--love.graphics.print("Mouse Pos: ("..x..","..y..")", 20, 180+32)
 end
 
 return game

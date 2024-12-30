@@ -58,8 +58,6 @@ function love.load()
 
 	main_font = love.graphics.newFont("assets/fonts/coffee.ttf", 32)
 
-	Timer.after(2, function() print("yay") end)
-
 	GameStateManager.registerEvents()
 	GameStateManager:changeState("game")
 end

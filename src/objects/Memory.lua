@@ -106,12 +106,10 @@ function Memory:draw()
 end
 
 function Memory:onMousePressed(mX, mY, button, istouch, presses)
-	print("Running Memory's onMousePressed")
 	TubeTrailObject.onMousePressed(self, mX, mY, button, istouch, presses)
 	if button == 1 then
 
 		if self:mouseHovered(mX, mY) then
-			print("Clicked")
 			self:remove()
 		end
 	end
