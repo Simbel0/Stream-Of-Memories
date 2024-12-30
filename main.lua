@@ -56,9 +56,6 @@ function love.load()
 		GameStates[id].getId = function(self) return self.id end
 	end
 
-	QUIT_TIMER = 0
-	START_QUIT = false
-
 	main_font = love.graphics.newFont("assets/fonts/coffee.ttf", 32)
 
 	GameStateManager.registerEvents()
