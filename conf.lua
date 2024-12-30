@@ -4,6 +4,7 @@ function love.conf(t)
 	t.version = "11.0"
 
 	t.window.title = "Stream of Memories"
+	t.window.icon = "icon.png"
 
 	t.window.width = 960
     t.window.height = 540
