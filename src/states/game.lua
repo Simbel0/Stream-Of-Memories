@@ -110,7 +110,7 @@ function game:enter()
 		{720, 400},
 		{560, 445}
 	})
-	self:spawnNewMemoryInTube(1)
+	self:spawnNewMemoryInTube()
 end
 
 function game:keypressed(key)
@@ -174,6 +174,9 @@ function game:gameOver()
 end
 
 function game:spawnNewMemoryInTube(index)
+	if index == nil then
+		index = love.math.random(1, #self.tubes)
+	end
 	self.stage:addChild(MemoryFactory:createMemory(self.tubes[index], MemoryFactory:getRandomMemory()))
 end
 
