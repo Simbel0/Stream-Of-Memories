@@ -1,7 +1,9 @@
 function love.conf(t)
 	t.identity = "neuromemories"
 
-	t.version = "11.0"
+	if love.system and love.system.getOS() ~= "Web" then
+		t.version = "11.0"
+	end
 
 	t.window.title = "Stream of Memories"
 	t.window.icon = "icon.png"

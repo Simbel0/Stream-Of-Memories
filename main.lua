@@ -57,8 +57,12 @@ function love.load()
 	require("src.vars")
 	print("GAME START: Neuro Game is started!")
 
-	Musics["LIFE"] = love.audio.newSource("assets/music/LIFE.mp3", "stream")
-	Musics["LIFEInst"] = love.audio.newSource("assets/music/LIFE-inst.mp3", "stream")
+	local mode = "stream"
+	if love.system.getOS() == "Web" then
+		mode = "static"
+	end
+	Musics["LIFE"] = love.audio.newSource("assets/music/LIFE.mp3", mode)
+	Musics["LIFEInst"] = love.audio.newSource("assets/music/LIFE-inst.mp3", mode)
 
 	Musics["LIFE"]:setLooping(true)
 	Musics["LIFEInst"]:setLooping(true)
