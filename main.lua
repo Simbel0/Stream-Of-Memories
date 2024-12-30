@@ -117,6 +117,9 @@ end
 
 function love.draw()
 	love.graphics.setFont(main_font)
+end
+
+function printOverlay()
 	love.graphics.setColor(1, 1, 1, QUIT_TIMER)
 	love.graphics.print("QUITTING...", 0, 0)
 

@@ -114,7 +114,7 @@ function game:enter()
 end
 
 function game:keypressed(key)
-	if pressedCtrl() then
+	if DEBUG_VIEW and pressedCtrl() then
 	    if key == "k" then
 	    	self.stage:addChild(MemoryFactory:createMemory(self.tubes[love.math.random(1, #self.tubes)], "tower"))
 	    elseif key == "g" then
@@ -255,7 +255,7 @@ function game:resetTubes()
 end
 
 function game:draw()
-
+	love.graphics.setColor(1, 1, 1, 1)
 	love.graphics.draw(self.background, 0, 0, 0, 1)
 	love.graphics.draw(self.neuro, 0, -120, 0, 1)
 
@@ -279,21 +279,25 @@ function game:draw()
 	self.stage:draw()
 
 	love.graphics.setColor(1, 1, 1, 1)
-	love.graphics.print("Game text", 100, 199)
-
-	love.graphics.print("Time: "..math.floor(self.game_timer), 20, 100)
 	love.graphics.print("Score: "..self.score, 20, 140)
 	love.graphics.print("Best Score: "..self.best_score, 20, 180)
-	love.graphics.print("Ouchie Value: "..self.neuro_ouchie, 20, 220)
+	if DEBUG_VIEW then
+		love.graphics.print("Game text", 100, 199)
 
-	love.graphics.print("MEMORY SPAWN: "..MEMORY_SPAWN_RATE, 20, 240)
-	love.graphics.print("MEMORY SPEED: "..GENERAL_MEMORY_SPEED, 20, 280)
+		love.graphics.print("Time: "..math.floor(self.game_timer), 20, 100)
+		love.graphics.print("Ouchie Value: "..self.neuro_ouchie, 20, 220)
+
+		love.graphics.print("MEMORY SPAWN: "..MEMORY_SPAWN_RATE, 20, 240)
+		love.graphics.print("MEMORY SPEED: "..GENERAL_MEMORY_SPEED, 20, 280)
+	end
 
 	love.graphics.draw(self.health_bar_health, self.health_quad, 59, (SCREEN_HEIGHT-self.health_bar_1:getHeight()-10)+56)
 	love.graphics.draw(self.health_bar_1, 0, SCREEN_HEIGHT-self.health_bar_1:getHeight()-10)
 	if self.score >= 0 then
 		love.graphics.draw(self.health_bar_2, 0, SCREEN_HEIGHT-self.health_bar_1:getHeight()-10)
 	end
+
+	printOverlay()
 
 	--local x, y = love.mouse.getPosition()
 	--love.graphics.print("Mouse Pos: ("..x..","..y..")", 20, 180+32)
