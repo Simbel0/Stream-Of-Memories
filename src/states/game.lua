@@ -4,6 +4,11 @@ function game:init()
 	print("Init Game State")
 	self.stage = Object()
 
+	self.background = love.graphics.newImage("assets/sprites/neuro_room/background.png")
+	self.neuro = love.graphics.newImage("assets/sprites/neuro_room/neuro.png")
+
+	self.tubes_tex = love.graphics.newImage("assets/sprites/neuro_room/tube_high_l.png")
+
 	self.health_bar_1 = love.graphics.newImage("assets/sprites/ui/health_bar_1.png")
 	self.health_bar_2 = love.graphics.newImage("assets/sprites/ui/health_bar_2.png")
 	self.health_bar_health = love.graphics.newImage("assets/sprites/ui/health_bar_health.png")
@@ -174,6 +179,11 @@ function game:resetTubes()
 end
 
 function game:draw()
+
+	love.graphics.draw(self.background, 0, 0, 0, 1)
+	love.graphics.draw(self.neuro, 0, -120, 0, 1)
+	love.graphics.draw(self.tubes_tex, 0, -120, 0, 1)
+
 	self.stage:draw()
 
 	love.graphics.setColor(1, 1, 1, 1)
