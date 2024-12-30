@@ -10,7 +10,8 @@ MemoryFactory.allMemories = {
 		karaoke=Karaoke,
 		osu=OSU,
 		piratestream=PirateStream,
-		yourreality=YourReality
+		yourreality=YourReality,
+		swarm=Swarm
 	},
 	wrong = {
 		sayitback=SayItBack,
