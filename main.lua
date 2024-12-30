@@ -56,6 +56,9 @@ function love.load()
 		GameStates[id].getId = function(self) return self.id end
 	end
 
+	QUIT_TIMER = 0
+	START_QUIT = false
+
 	main_font = love.graphics.newFont("assets/fonts/coffee.ttf", 32)
 
 	GameStateManager.registerEvents()
@@ -65,6 +68,17 @@ end
 function love.update(dt)
 	Timer.update(dt)
 	DT = dt
+
+	if START_QUIT then
+		QUIT_TIMER = QUIT_TIMER + DT
+		if QUIT_TIMER > 1 then
+			love.event.quit()
+		end
+	else
+		if QUIT_TIMER > 0 then
+			QUIT_TIMER = QUIT_TIMER - DT
+		end
+	end
 
 	FPS_TIMER = FPS_TIMER + DT
 	FPS_COUNTER = FPS_COUNTER + 1
@@ -87,7 +101,7 @@ end
 
 function love.keypressed(key, scancode, is_repeat)
 	if scancode == "escape" then
-		love.event.quit()
+		START_QUIT = true
 	elseif love.keyboard.isScancodeDown("lctrl") and scancode == "r" then
 		love.event.quit("restart")
 	elseif pressedCtrl() and scancode == "d" then
@@ -95,10 +109,20 @@ function love.keypressed(key, scancode, is_repeat)
 	end
 end
 
+function love.keyreleased(key, scancode, is_repeat)
+	if scancode == "escape" then
+		START_QUIT = false
+	end
+end
+
 function love.draw()
 	love.graphics.setFont(main_font)
+	love.graphics.setColor(1, 1, 1, QUIT_TIMER)
+	love.graphics.print("QUITTING...", 0, 0)
+
 	if DEBUG_VIEW then
 		love.graphics.setColor(1, 1, 1, 1)
-		love.graphics.print(FPS.." FPS", 0, 0)
+		local w = main_font:getWidth(FPS.." FPS")
+		love.graphics.print(FPS.." FPS", SCREEN_WIDTH-w, 0)
 	end
 end
