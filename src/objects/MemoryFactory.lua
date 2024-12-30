@@ -16,7 +16,10 @@ MemoryFactory.allMemories = {
 		sayitback=SayItBack,
 		tower=Tower,
 		neurosister3=NeuroSister3,
-		undertale=Undertale
+		undertale=Undertale,
+		unplugged=Unplugged,
+		adoptcat=AdoptCat,
+		terminator=Terminator
 	}
 }
 
