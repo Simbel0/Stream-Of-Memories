@@ -28,8 +28,8 @@ function gameOver:enter(game)
 > Someone tell Vedal there is a problem with 
   his AI.[w:10] ]]
 
-  	self.text = self.text .. "\n\n> Score: "..game.score
-  	self.text = self.text .. "\n> Best Score: "..game.best_score
+  	self.text = self.text .. "\n\n> Score: "..(game.score or "UNKNOWN")
+  	self.text = self.text .. "\n> Best Score: "..(game.best_score or "UNKNOWN")
 	self.tText = ""
 	self.typewriter = 0
 	self.last_typewrite = 0
@@ -51,8 +51,8 @@ function gameOver:enter(game)
 > FAILURE.
 > Someone tell Vedal there is a problem with 
   his AI.]]
-  	self.skip_text = self.skip_text .. "\n\n> Score: "..game.score
-  	self.skip_text = self.skip_text .. "\n> Best Score: "..game.best_score
+  	self.skip_text = self.skip_text .. "\n\n> Score: "..(game.score or "UNKNOWN")
+  	self.skip_text = self.skip_text .. "\n> Best Score: "..(game.best_score or "UNKNOWN")
 end
 
 function gameOver:update()
