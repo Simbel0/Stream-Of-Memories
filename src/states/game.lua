@@ -4,10 +4,17 @@ function game:init()
 	print("Init Game State")
 	self.stage = Object()
 
-	self.background = love.graphics.newImage("assets/sprites/neuro_room/background.png")
-	self.neuro = love.graphics.newImage("assets/sprites/neuro_room/neuro.png")
+	self.background = love.graphics.newImage("assets/sprites/neuro_room/backgroundfinal.png")
+	self.neuro = love.graphics.newImage("assets/sprites/neuro_room/neurofinal.png")
 
-	self.tubes_tex = love.graphics.newImage("assets/sprites/neuro_room/tube_high_l.png")
+	self.tubes_lower_in = love.graphics.newImage("assets/sprites/neuro_room/tubesinside2.png")
+	self.tubes_lower_out = love.graphics.newImage("assets/sprites/neuro_room/tubesoutside2.png")
+
+	self.tubes_middle_in = love.graphics.newImage("assets/sprites/neuro_room/tubesinside1.png")
+	self.tubes_middle_out = love.graphics.newImage("assets/sprites/neuro_room/tubesoutside1.png")
+
+	self.tubes_high_in = love.graphics.newImage("assets/sprites/neuro_room/tubesinside3.png")
+	self.tubes_high_out = love.graphics.newImage("assets/sprites/neuro_room/tubesoutside3.png")
 
 	self.health_bar_1 = love.graphics.newImage("assets/sprites/ui/health_bar_1.png")
 	self.health_bar_2 = love.graphics.newImage("assets/sprites/ui/health_bar_2.png")
@@ -37,7 +44,7 @@ function game:init()
 		local score = 20
 		local ouch_mult = 1
 		if not memory.isReal then
-			score = -score
+			score = math.floor(score*-1.5)
 			ouch_mult = -1
 		end
 
@@ -89,11 +96,19 @@ function game:enter()
 
 	self:resetTubes()
 	self:addTube({
-		{100, 0},
-		{120, 60},
-		{150, 100},
-		{250, 250},
-		{270, 290}
+		{-40, 240},
+		{0, 250},
+		{130, 315},
+		{200, 350},
+		{290, 405},
+		{440, 445}
+	})
+	self:addTube({
+		{SCREEN_WIDTH+40, 240},
+		{900, 305},
+		{810, 360},
+		{720, 400},
+		{560, 445}
 	})
 	self:spawnNewMemoryInTube(1)
 end
@@ -182,7 +197,9 @@ function game:draw()
 
 	love.graphics.draw(self.background, 0, 0, 0, 1)
 	love.graphics.draw(self.neuro, 0, -120, 0, 1)
-	love.graphics.draw(self.tubes_tex, 0, -120, 0, 1)
+	
+	love.graphics.draw(self.tubes_lower_in, 0, -120, 0, 1)
+	love.graphics.draw(self.tubes_lower_out, 0, -120, 0, 1)
 
 	self.stage:draw()
 
@@ -198,6 +215,9 @@ function game:draw()
 	if self.score >= 0 then
 		love.graphics.draw(self.health_bar_2, 0, SCREEN_HEIGHT-self.health_bar_1:getHeight()-10)
 	end
+
+	local x, y = love.mouse.getPosition()
+	love.graphics.print("Mouse Pos: ("..x..","..y..")", 20, 180+32)
 end
 
 return game
