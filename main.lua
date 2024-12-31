@@ -140,7 +140,7 @@ function love.keypressed(key, scancode, is_repeat)
 	elseif love.keyboard.isScancodeDown("lctrl") and scancode == "r" then
 		love.event.quit("restart")
 	elseif pressedCtrl() and scancode == "d" then
-		DEBUG_VIEW = not DEBUG_VIEW
+		--DEBUG_VIEW = not DEBUG_VIEW
 	end
 end
 

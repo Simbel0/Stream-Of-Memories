@@ -108,7 +108,7 @@ function gameOver:keypressed(key)
 	elseif key == "return" and self.done_typing then
 		GameStateManager:changeState("game")
 	elseif key == "escape" and self.done_typing then
-		GameStateManager:changeState("menu")
+		--GameStateManager:changeState("menu")
 	end
 end
 
@@ -168,7 +168,7 @@ function gameOver:draw()
 
 	if self.done_typing then
 		love.graphics.print("[ENTER] Restart", 15, SCREEN_HEIGHT-32*3)
-		love.graphics.print("[ESCAPE] Main Menu", 15, SCREEN_HEIGHT-32*2)
+		--love.graphics.print("[ESCAPE] Main Menu", 15, SCREEN_HEIGHT-32*2)
 	end
 
 	printOverlay()
