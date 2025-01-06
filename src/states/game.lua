@@ -151,6 +151,8 @@ function game:keypressed(key)
 	    	self.stage:addChild(MemoryFactory:createMemory(self.tubes[love.math.random(1, #self.tubes)], "tower"))
 	    elseif key == "g" then
 	    	self:gameOver()
+	    elseif key == "t" then
+	    	self.game_timer = self.game_timer + 15
 	    end
 	end
 end

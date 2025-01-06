@@ -144,6 +144,10 @@ function love.keypressed(key, scancode, is_repeat)
 		love.event.quit("restart")
 	elseif pressedCtrl() and scancode == "d" then
 		--DEBUG_VIEW = not DEBUG_VIEW
+	elseif scancode == "kp+" and DEBUG_VIEW then
+		MEMORY_SPEED = MEMORY_SPEED + 5
+	elseif scancode == "kp-" and DEBUG_VIEW then
+		MEMORY_SPEED = MEMORY_SPEED - 5
 	end
 end
 
