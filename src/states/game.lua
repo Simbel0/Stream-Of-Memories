@@ -219,7 +219,7 @@ function game:update()
 		}, true)
 	end
 
-	if self.game_timer >= 150 then
+	if self.game_timer >= 160 then
 		if math.floor(self.game_timer)%5 == 0 then
 			if MEMORY_SPAWN_RATE > 1 then
 				MEMORY_SPAWN_RATE = MEMORY_SPAWN_RATE - 0.15*DT
