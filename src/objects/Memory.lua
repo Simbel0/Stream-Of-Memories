@@ -67,9 +67,9 @@ function Memory:update()
 	TubeTrailObject.update(self)
 
 	if self:mouseHovered(love.mouse:getPosition()) then
-		self.nameTextAlpha = self.nameTextAlpha + 1*DT
+		self.nameTextAlpha = self.nameTextAlpha + 3*DT
 	else
-		self.nameTextAlpha = self.nameTextAlpha - 1*DT
+		self.nameTextAlpha = self.nameTextAlpha - 3*DT
 	end
 	if self.nameTextAlpha > 1 then self.nameTextAlpha = 1 elseif
 	   self.nameTextAlpha < 0 then self.nameTextAlpha = 0 end
