@@ -86,7 +86,12 @@ function Memory:draw()
 
 	local r, g, b = self:getColor()
 	love.graphics.setColor(r, g, b, self.nameTextAlpha)
-	love.graphics.print(self:getName(), x, y-32)
+
+	local name = self:getName()
+	local name_width = main_font:getWidth(name)
+	local tX, _ = self:getPosition()
+	tX = tX-name_width/2
+	love.graphics.print(self:getName(), tX, y-32)
 
 	if DEBUG_VIEW and tex then
 		local x, y = self:getPosition()
