@@ -177,7 +177,7 @@ function game:update()
 	self.game_timer = self.game_timer + DT
 
 	if math.floor(self.game_timer)%15 == 0 and not self.ouchie_increased then
-		self.neuro_ouchie = self.neuro_ouchie + 1
+		self.neuro_ouchie = self.neuro_ouchie + 0.5
 		if self.game_timer >= 120 then
 			self.neuro_ouchie = self.neuro_ouchie + 1
 		end
