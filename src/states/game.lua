@@ -277,6 +277,9 @@ function game:spawnNewMemoryInTube(index)
 	if index == nil then
 		index = love.math.random(1, #available_tubes)
 	end
+	if not index or #available_tubes == 0 or not available_tubes[index] then
+		return
+	end
 	self.stage:addChild(MemoryFactory:createMemory(available_tubes[index], MemoryFactory:getRandomMemory()))
 end
 
