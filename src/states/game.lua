@@ -124,15 +124,14 @@ function game:enter()
 		{200, 350},
 		{290, 405},
 		{440, 445}
-	})
+	}, nil, MEMORY_SPAWN_RATE-love.math.random(10, 20)/100)
 	self:addTube({
 		{SCREEN_WIDTH+40, 240},
 		{900, 305},
 		{810, 360},
 		{720, 400},
 		{560, 445}
-	})
-	self:spawnNewMemoryInTube()
+	}, nil, MEMORY_SPAWN_RATE-love.math.random(10, 20)/100)
 end
 
 function game:leave()
@@ -281,12 +280,12 @@ function game:spawnNewMemoryInTube(index)
 	self.stage:addChild(MemoryFactory:createMemory(available_tubes[index], MemoryFactory:getRandomMemory()))
 end
 
-function game:addTube(points, drop_anim)
+function game:addTube(points, drop_anim, force_timer)
 	local tube = TubePath(points)
 	tube:setDropAnim(drop_anim or false)
 	self.stage:addChild(tube)
 	table.insert(self.tubes, tube)
-	table.insert(self.tubes_timer, love.math.random(0, MEMORY_SPAWN_RATE))
+	table.insert(self.tubes_timer, force_timer or love.math.random(0, MEMORY_SPAWN_RATE))
 end
 
 function game:resetTubes()
