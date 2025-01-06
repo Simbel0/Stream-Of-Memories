@@ -13,6 +13,7 @@ Signal = require("src.hump.signal")
 Utils = require("src.utils")
 
 JSON = require("src.lib.json")
+Ver = require("src.lib.semver")
 
 Object = require("src.objects.object")
 TubeNode = require("src.objects.TubeNode")
@@ -64,6 +65,8 @@ GlobalData = {}
 function love.load()
 	require("src.vars")
 	print("GAME START: Neuro Game is started!")
+
+	VERSION = Ver(love.filesystem.read("VERSION"))
 
 	if love.system.getOS() ~= "Web" then
 		if love.filesystem.getInfo("save.json") then
@@ -159,9 +162,12 @@ function printOverlay()
 	love.graphics.setColor(1, 1, 1, QUIT_TIMER)
 	love.graphics.print("QUITTING...", 0, 0)
 
+	love.graphics.setColor(1, 1, 1, 1)
 	if DEBUG_VIEW then
-		love.graphics.setColor(1, 1, 1, 1)
 		local w = main_font:getWidth(FPS.." FPS")
 		love.graphics.print(FPS.." FPS", SCREEN_WIDTH-w, 0)
 	end
+
+	local w = main_font:getWidth("v"..tostring(VERSION))
+	love.graphics.print("v"..tostring(VERSION), SCREEN_WIDTH-w, SCREEN_HEIGHT-32)
 end
