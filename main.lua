@@ -67,6 +67,9 @@ function love.load()
 	print("GAME START: Neuro Game is started!")
 
 	VERSION = Ver(love.filesystem.read("VERSION"))
+	if VERSION then
+		love.window.setTitle(love.window.getTitle().." v"..tostring(VERSION))
+	end
 
 	if love.system.getOS() ~= "Web" then
 		if love.filesystem.getInfo("save.json") then
