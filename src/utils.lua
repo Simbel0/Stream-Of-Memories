@@ -52,4 +52,12 @@ function Utils.isArray(tbl)
     return true
 end
 
+function Utils.removeFromTable(tbl, value)
+    for i,v in ipairs(tbl) do
+        if v == value then
+            return table.remove(tbl, i)
+        end
+    end
+end
+
 return Utils

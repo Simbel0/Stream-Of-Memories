@@ -29,6 +29,8 @@ function game:init()
 	self.health_bar_max_width = w
 	self.health_bar_width = self.health_bar_max_width
 
+	self.memories = {}
+
 	self.tubes = {}
 	self.tubes_timer = {}
 
@@ -282,7 +284,10 @@ function game:spawnNewMemoryInTube(index)
 	if not index or #available_tubes == 0 or not available_tubes[index] then
 		return
 	end
-	self.stage:addChild(MemoryFactory:createMemory(available_tubes[index], MemoryFactory:getRandomMemory()))
+
+	local memory = MemoryFactory:createMemory(available_tubes[index], MemoryFactory:getRandomMemory())
+	self.stage:addChild(memory)
+	table.insert(self.memories, memory)
 end
 
 function game:addTube(points, drop_anim, force_timer)
@@ -300,6 +305,12 @@ function game:resetTubes()
 	end
 	self.tubes = {}
 	self.tubes_timer = {}
+
+	for i=#self.memories, 1, -1 do
+		local memory = table.remove(self.tubes, i)
+		memory:remove()
+	end
+	self.memories = {}
 end
 
 function game:draw()
@@ -325,6 +336,20 @@ function game:draw()
 	love.graphics.draw(self.tubes_lower_out, 0, self.tubes[1].y-120, 0, 1)
 
 	self.stage:draw()
+
+	for i,memory in ipairs(self.memories) do
+		local r, g, b = memory:getColor()
+		love.graphics.setColor(r, g, b, memory.nameTextAlpha)
+
+		local name = memory:getName()
+		local name_width = main_font:getWidth(name)
+
+		local tX, _ = memory:getPosition()
+		tX = tX-name_width/2
+		local _, tY = memory:getPositionCenteredToTexture()
+
+		love.graphics.print(memory:getName(), tX, tY-32)
+	end
 
 	love.graphics.setColor(1, 1, 1, 1)
 	love.graphics.print("Score: "..self.score, (SCREEN_WIDTH/2)-160, 10)

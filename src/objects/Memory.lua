@@ -19,6 +19,16 @@ function Memory:init(path, speed)
 	self.nameTextAlpha = 0
 end
 
+function Memory:remove()
+	TubeTrailObject.remove(self)
+
+	local state = GameStateManager:current()
+	if state:getId() ~= "game" then
+		return
+	end
+	Utils.removeFromTable(state.memories, self)
+end
+
 function Memory:getName()
 	return self.name
 end
@@ -83,15 +93,6 @@ function Memory:draw()
 	if tex then
 		love.graphics.draw(tex, x, y, 0, MEMORY_SCALE, MEMORY_SCALE)
 	end
-
-	local r, g, b = self:getColor()
-	love.graphics.setColor(r, g, b, self.nameTextAlpha)
-
-	local name = self:getName()
-	local name_width = main_font:getWidth(name)
-	local tX, _ = self:getPosition()
-	tX = tX-name_width/2
-	love.graphics.print(self:getName(), tX, y-32)
 
 	if DEBUG_VIEW and tex then
 		local x, y = self:getPosition()
