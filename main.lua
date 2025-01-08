@@ -143,7 +143,7 @@ end
 function love.keypressed(key, scancode, is_repeat)
 	if scancode == "escape" then
 		START_QUIT = true
-	elseif love.keyboard.isScancodeDown("lctrl") and scancode == "r" then
+	elseif pressedCtrl() and scancode == "r" then
 		love.event.quit("restart")
 	elseif pressedCtrl() and scancode == "d" then
 		--DEBUG_VIEW = not DEBUG_VIEW
