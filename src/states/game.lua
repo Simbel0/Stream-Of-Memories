@@ -193,14 +193,14 @@ function game:update()
 
 	if self.game_timer > 60 and #self.tubes == 2 then
 		self:addTube({
-			{60, -60},
+			{40, -60},
 			{75, 0},
 			{160, 110},
 			{290, 230},
 			{430, 350}
 		}, true)
 		self:addTube({
-			{925, -60},
+			{950, -60},
 			{915, 0},
 			{820, 130},
 			{690, 255},
@@ -208,13 +208,13 @@ function game:update()
 		}, true)
 	elseif self.game_timer > 120 and #self.tubes == 4 then
 		self:addTube({
-			{310, -60},
+			{290, -60},
 			{320, 0},
 			{365, 110},
 			{435, 235}
 		}, true)
 		self:addTube({
-			{675, -60},
+			{715, -60},
 			{685, 0},
 			{630, 120},
 			{560, 235}
