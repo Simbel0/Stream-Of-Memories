@@ -81,8 +81,8 @@ function love.load()
 	if love.system.getOS() == "Web" then
 		mode = "static"
 	end
-	Musics["LIFE"] = love.audio.newSource("assets/music/LIFE.mp3", mode)
-	Musics["LIFEInst"] = love.audio.newSource("assets/music/LIFE-inst.mp3", mode)
+	Musics["LIFE"] = love.audio.newSource("assets/music/LIFE.ogg", mode)
+	Musics["LIFEInst"] = love.audio.newSource("assets/music/LIFE-inst.ogg", mode)
 
 	Musics["LIFE"]:setLooping(true)
 	Musics["LIFEInst"]:setLooping(true)
