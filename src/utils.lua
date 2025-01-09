@@ -68,4 +68,8 @@ function Utils.preciseLerp(a, b, t)
     return (1 - t)* a + t * b
 end
 
+function Utils.clamp(val, min, max)
+    return math.max(math.min(val, max), min)
+end
+
 return Utils

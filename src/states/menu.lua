@@ -89,12 +89,11 @@ end
 function menu:draw()	
 	if self.state == "POWEROFF" then
 		local w, h = self.power_button:getDimensions()
-		print(self.power_alpha, self.flick_alpha)
 		love.graphics.setColor(1,1,1,self.power_alpha)
 
 		love.graphics.draw(self:mouseHoveredPower() and self.power_button_on or self.power_button, (SCREEN_WIDTH/2)-w/2, (SCREEN_HEIGHT/2)-h/2)
 	elseif self.state == "BOOTUP" then
-		love.graphics.setColor(106/255, 51/255, 231/255, math.min((self.timer-50)/100, 0.6))
+		love.graphics.setColor(106/255, 51/255, 231/255, Utils.clamp((self.timer-50)/100, 0, 0.6))
 		love.graphics.rectangle("fill", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
 
 		love.graphics.setColor(255/255, 105/255, 224/255, self.text_fade)
@@ -118,9 +117,9 @@ function menu:draw()
 			local color1_r, color1_g, color1_b = 0, 0, 0
 			local color2_r, color2_g, color2_b = 106/255, 51/255, 231/255
 
-			local finalColor_r = Utils.preciseLerp(color1_r, color2_r, math.max(math.min((self.timer-50)/100, 0.6), 0))
-			local finalColor_g = Utils.preciseLerp(color1_g, color2_g, math.max(math.min((self.timer-50)/100, 0.6), 0))
-			local finalColor_b = Utils.preciseLerp(color1_b, color2_b, math.max(math.min((self.timer-50)/100, 0.6), 0))
+			local finalColor_r = Utils.preciseLerp(color1_r, color2_r, Utils.clamp((self.timer-50)/100, 0, 0.6))
+			local finalColor_g = Utils.preciseLerp(color1_g, color2_g, Utils.clamp((self.timer-50)/100, 0, 0.6))
+			local finalColor_b = Utils.preciseLerp(color1_b, color2_b, Utils.clamp((self.timer-50)/100, 0, 0.6))
 
 			love.graphics.setColor(finalColor_r, finalColor_g, finalColor_b, 1)
 
