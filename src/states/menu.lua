@@ -21,6 +21,9 @@ function menu:enter()
 
 	self.flick_alpha = love.math.random(400, 1000)/1000
 	self.timer = 0
+
+	self.blue_power_info = 1
+	self.text_fade = 0
 end
 
 function menu:mouseHoveredPower()
@@ -58,19 +61,32 @@ function menu:update()
 		--self.hover_power_button = mouseHoveredPower()
 	elseif self.state == "BOOTUP" then
 		self.timer = self.timer + 20*DT
+
+		if self.timer < 100 then
+			self.text_fade = math.min(self.text_fade + 3*DT, 1)
+		else
+			self.text_fade = self.text_fade - 1*DT
+		end
+
+		self.blue_power_info = self.blue_power_info + 2*DT
 	end
 end
 
 function menu:mousepressed( x, y, button, istouch, presses )
-	if button == 1 and self:mouseHoveredPower() then
+	if self.state == "POWEROFF" and button == 1 and self:mouseHoveredPower() then
 		self.state = "BOOTUP"
 		self.timer = 0
 		Musics["LIFEInst"]:play()
 	end
 end
 
-function menu:draw()
-	
+function menu:keypressed(key)
+	if key == "g" then
+		GameStateManager:changeState("game")
+	end
+end
+
+function menu:draw()	
 	if self.state == "POWEROFF" then
 		local w, h = self.power_button:getDimensions()
 		print(self.power_alpha, self.flick_alpha)
@@ -78,7 +94,19 @@ function menu:draw()
 
 		love.graphics.draw(self:mouseHoveredPower() and self.power_button_on or self.power_button, (SCREEN_WIDTH/2)-w/2, (SCREEN_HEIGHT/2)-h/2)
 	elseif self.state == "BOOTUP" then
-		love.graphics.setColor(255/255, 105/255, 224/255, 1)
+		love.graphics.setColor(106/255, 51/255, 231/255, math.min((self.timer-50)/100, 0.6))
+		love.graphics.rectangle("fill", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+
+
+		love.graphics.setColor(1,1,1,1-(self.blue_power_info-1))
+		local w, h = self.power_button_on_b:getDimensions()
+		w = w*self.blue_power_info
+		h = h*self.blue_power_info
+
+		love.graphics.draw(self.power_button_on_b, (SCREEN_WIDTH/2)-w/2, (SCREEN_HEIGHT/2)-h/2, 0, self.blue_power_info)
+
+
+		love.graphics.setColor(255/255, 105/255, 224/255, self.text_fade)
 
 		local loading_text = "Loading..."
 		local w = main_font:getWidth(loading_text)
