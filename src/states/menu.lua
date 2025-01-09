@@ -97,15 +97,6 @@ function menu:draw()
 		love.graphics.setColor(106/255, 51/255, 231/255, math.min((self.timer-50)/100, 0.6))
 		love.graphics.rectangle("fill", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
 
-
-		love.graphics.setColor(1,1,1,1-(self.blue_power_info-1))
-		local w, h = self.power_button_on_b:getDimensions()
-		w = w*self.blue_power_info
-		h = h*self.blue_power_info
-
-		love.graphics.draw(self.power_button_on_b, (SCREEN_WIDTH/2)-w/2, (SCREEN_HEIGHT/2)-h/2, 0, self.blue_power_info)
-
-
 		love.graphics.setColor(255/255, 105/255, 224/255, self.text_fade)
 
 		local loading_text = "Loading..."
@@ -115,14 +106,40 @@ function menu:draw()
 		local rX, rY = (SCREEN_WIDTH/2), (SCREEN_HEIGHT/2)
 		local rW, rH = 400, 20
 
-		love.graphics.rectangle("line", rX-rW/2, rY, rW, rH)
-
 		local fill_value = math.min(self.timer, 100)
 
 		local w_max = rW-6
 		local w_value = (w_max*fill_value)/100
 
 		love.graphics.rectangle("fill", (rX-rW/2)+3, rY+3, w_value, rH-6)
+
+		if w_value < w_max then
+
+			local color1_r, color1_g, color1_b = 0, 0, 0
+			local color2_r, color2_g, color2_b = 106/255, 51/255, 231/255
+
+			local finalColor_r = Utils.preciseLerp(color1_r, color2_r, math.max(math.min((self.timer-50)/100, 0.6), 0))
+			local finalColor_g = Utils.preciseLerp(color1_g, color2_g, math.max(math.min((self.timer-50)/100, 0.6), 0))
+			local finalColor_b = Utils.preciseLerp(color1_b, color2_b, math.max(math.min((self.timer-50)/100, 0.6), 0))
+
+			love.graphics.setColor(finalColor_r, finalColor_g, finalColor_b, 1)
+
+			love.graphics.push()
+			love.graphics.translate(((rX-rW/2)+3)+w_value-15, rY+3)
+			love.graphics.rotate(math.rad(-45))
+			love.graphics.rectangle("fill", 0, 0, 15, rH+10)
+			love.graphics.pop()
+		end
+
+		love.graphics.setColor(255/255, 105/255, 224/255, self.text_fade)
+		love.graphics.rectangle("line", rX-rW/2, rY, rW, rH)
+
+		love.graphics.setColor(1,1,1,1-(self.blue_power_info-1))
+		local w, h = self.power_button_on_b:getDimensions()
+		w = w*self.blue_power_info
+		h = h*self.blue_power_info
+
+		love.graphics.draw(self.power_button_on_b, (SCREEN_WIDTH/2)-w/2, (SCREEN_HEIGHT/2)-h/2, 0, self.blue_power_info)
 	end
 
 	love.graphics.setColor(1,1,1,0.3)

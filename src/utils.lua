@@ -60,4 +60,12 @@ function Utils.removeFromTable(tbl, value)
     end
 end
 
+function Utils.lerp(a, b, t)
+    return a + t * (b - 1)
+end
+
+function Utils.preciseLerp(a, b, t)
+    return (1 - t)* a + t * b
+end
+
 return Utils
