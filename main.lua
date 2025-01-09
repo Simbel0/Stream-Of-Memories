@@ -95,7 +95,7 @@ function love.load()
 	main_font = love.graphics.newFont("assets/fonts/coffee.ttf", 32)
 
 	GameStateManager.registerEvents()
-	GameStateManager:changeState("game")
+	GameStateManager:changeState("menu")
 end
 
 function love.quit()
