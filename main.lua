@@ -73,7 +73,7 @@ function love.load()
 
 	if love.system.getOS() ~= "Web" then
 		if love.filesystem.getInfo("save.json") then
-			GlobalData = JSON.decode(love.filesystem.read("save.json"))
+			GlobalData = Utils.merge(GlobalData, JSON.decode(love.filesystem.read("save.json")), true)
 		end
 	end
 

@@ -8,6 +8,8 @@ function menu:init()
 	self.power_button_on_b = love.graphics.newImage("assets/sprites/ui/menu_start_select_blue.png")
 
 	self.screen_light = love.graphics.newImage("assets/sprites/ui/screen_light.png")
+
+	self.jam_logo = love.graphics.newImage("assets/sprites/jam_logo.png")
 end
 
 function menu:enter()
@@ -24,6 +26,25 @@ function menu:enter()
 
 	self.blue_power_info = 1
 	self.text_fade = 0
+
+	self.splash_canvas = love.graphics.newCanvas(SCREEN_WIDTH, SCREEN_HEIGHT)
+
+	love.graphics.setCanvas(self.splash_canvas)
+
+	local w, h = self.jam_logo:getDimensions()
+	local x, y = (SCREEN_WIDTH/2)-w/2, (SCREEN_HEIGHT/2)-h/2
+	love.graphics.draw(self.jam_logo, x, y)
+
+	love.graphics.setFont(main_font)
+	love.graphics.setColor(255/255, 105/255, 224/255, 1)
+	love.graphics.printf("Game made for", 0, y, SCREEN_WIDTH, "center")
+
+	love.graphics.setColor(1, 1, 1, 1)
+
+	love.graphics.setCanvas()
+
+	self.splash_scale = 0.7
+	self.splash_alpha = 0
 end
 
 function menu:mouseHoveredPower()
@@ -66,9 +87,24 @@ function menu:update()
 			self.text_fade = math.min(self.text_fade + 3*DT, 1)
 		else
 			self.text_fade = self.text_fade - 1*DT
+
+			if self.text_fade <= 0 then
+				self.state = "SPLASHSCREEN"
+				self.timer = 0
+			end
 		end
 
 		self.blue_power_info = self.blue_power_info + 2*DT
+	elseif self.state == "SPLASHSCREEN" then
+		self.timer = self.timer + 10*DT
+
+		if self.timer < 20 then
+			self.splash_alpha = Utils.clamp(self.splash_alpha + 1.5*DT, 0, 1)
+		elseif self.timer > 30 then
+			self.splash_alpha = self.splash_alpha - 1.5*DT
+		end
+
+		self.splash_scale = self.splash_scale + 0.03*DT
 	end
 end
 
@@ -139,6 +175,18 @@ function menu:draw()
 		h = h*self.blue_power_info
 
 		love.graphics.draw(self.power_button_on_b, (SCREEN_WIDTH/2)-w/2, (SCREEN_HEIGHT/2)-h/2, 0, self.blue_power_info)
+	elseif self.state == "SPLASHSCREEN" then
+		love.graphics.setColor(106/255, 51/255, 231/255, 0.6)
+		love.graphics.rectangle("fill", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+
+		love.graphics.setColor(1,1,1,self.splash_alpha)
+
+		love.graphics.translate(love.graphics.getWidth()/2, love.graphics.getHeight()/2)
+        love.graphics.scale(self.splash_scale)
+		love.graphics.draw(self.splash_canvas, -SCREEN_WIDTH/2, -SCREEN_HEIGHT/2)
+
+		love.graphics.reset()
+		love.graphics.scale(1)
 	end
 
 	love.graphics.setColor(1,1,1,0.3)
