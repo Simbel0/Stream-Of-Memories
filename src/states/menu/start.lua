@@ -12,6 +12,19 @@ function menu:init()
 	self.jam_logo = love.graphics.newImage("assets/sprites/jam_logo.png")
 end
 
+-- Since we'll never come back to this state until the game is restarted, might as well release everything now
+function menu:leave()
+	print("Leave Menu State")
+	print(self.splash_canvas)
+
+	self.power_button:release()
+	self.power_button_on:release()
+	self.power_button_on_b:release()
+	self.screen_light:release()
+	self.jam_logo:release()
+	self.splash_canvas:release()
+end
+
 function menu:enter()
 	print("Entered Menu State")
 
@@ -102,6 +115,10 @@ function menu:update()
 			self.splash_alpha = Utils.clamp(self.splash_alpha + 1.5*DT, 0, 1)
 		elseif self.timer > 30 then
 			self.splash_alpha = self.splash_alpha - 1.5*DT
+
+			if self.splash_alpha <= 0 then
+				GameStateManager:changeState("menu/mainmenu")
+			end
 		end
 
 		self.splash_scale = self.splash_scale + 0.03*DT

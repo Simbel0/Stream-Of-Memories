@@ -42,7 +42,8 @@ YourReality = require("src.objects.memories.YourReality")
 MemoryFactory = require("src.objects.MemoryFactory")
 
 GameStates = {
-	menu = require("src.states.menu"),
+	["menu/start"] = require("src.states.menu.start"),
+	["menu/mainmenu"] = require("src.states.menu.mainmenu"),
 	game = require("src.states.game"),
 	gameOver = require("src.states.gameOver"),
 	
@@ -95,7 +96,7 @@ function love.load()
 	main_font = love.graphics.newFont("assets/fonts/coffee.ttf", 32)
 
 	GameStateManager.registerEvents()
-	GameStateManager:changeState("menu")
+	GameStateManager:changeState("menu/start")
 end
 
 function love.quit()

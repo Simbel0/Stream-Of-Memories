@@ -1,0 +1,65 @@
+local menu = {}
+
+function menu:init()
+	print("Init Menu State")
+
+	self.screen_light = love.graphics.newImage("assets/sprites/ui/screen_light.png")
+
+	self.logo = love.graphics.newImage("assets/sprites/logo.png")
+	self.logo_alpha = 0
+end
+
+function menu:enter()
+	print("Entered Menu State")
+
+	self.timer = 0
+end
+
+function mouseHovered(obj)
+	local w, h
+	if obj.getDimensions then
+		w, h = obj:getDimensions()
+	end
+
+	local x, y = (SCREEN_WIDTH/2)-w/2, (SCREEN_HEIGHT/2)-h/2
+
+	local mX, mY = love.mouse.getPosition()
+
+	return mX > x and
+		   mX < x+(w) and
+		   mY > y and
+		   mY < y+(h)
+end
+
+function menu:update()
+	self.timer = self.timer + DT
+end
+
+function menu:mousepressed( x, y, button, istouch, presses )
+
+end
+
+function menu:keypressed(key)
+	print(key)
+end
+
+function menu:draw()	
+	love.graphics.setColor(106/255, 51/255, 231/255, 0.6)
+	love.graphics.rectangle("fill", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+
+	love.graphics.push()
+
+	local w, h = self.logo:getDimensions()
+
+	love.graphics.translate(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
+	love.graphics.scale(0.35)
+	love.graphics.rotate(math.rad(math.sin(self.timer*5)*2))
+	love.graphics.setColor(1, 1, 1, self.logo_alpha)
+	love.graphics.draw(self.logo, -(w/2), -(h/2), 0)
+	love.graphics.pop()
+
+	love.graphics.setColor(1,1,1,0.3)
+	love.graphics.draw(self.screen_light, 0, 0)
+end
+
+return menu
