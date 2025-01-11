@@ -41,6 +41,8 @@ YourReality = require("src.objects.memories.YourReality")
 
 MemoryFactory = require("src.objects.MemoryFactory")
 
+SubStateMachine = require("src.objects.outgame.SubStateMachine")
+
 GameStates = {
 	["menu/start"] = require("src.states.menu.start"),
 	["menu/mainmenu"] = require("src.states.menu.mainmenu"),

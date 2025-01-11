@@ -7,6 +7,8 @@ function menu:init()
 
 	self.logo = love.graphics.newImage("assets/sprites/logo.png")
 	self.logo_alpha = 0
+
+	self.stateMachine = SubStateMachine(self)
 end
 
 function menu:enter()
@@ -33,6 +35,12 @@ end
 
 function menu:update()
 	self.timer = self.timer + DT
+
+	--[[if self.state == "MAIN" then
+		if self.logo_alpha < 1 then
+			self.logo_alpha = self.logo_alpha + 10*DT
+		end
+	end]]
 end
 
 function menu:mousepressed( x, y, button, istouch, presses )
