@@ -16,6 +16,9 @@ function SubStateMachine:init(state)
 			if self and self[func] then
 				self[func](self, ...)
 			end
+			local post_func = "post"..Utils.simpleTitleCase(func)
+			if state[post_func] then
+				state[post_func](state, ...)
 			end
 		end
 	end

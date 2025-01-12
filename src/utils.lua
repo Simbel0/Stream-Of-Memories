@@ -94,4 +94,11 @@ function Utils.merge(tbl, other, deep)
     return tbl
 end
 
+function Utils.simpleTitleCase(str)
+    local w = str:sub(1, 1)
+    local ord = str:sub(2, -1)
+
+    return w:upper()..ord
+end
+
 return Utils
