@@ -14,7 +14,8 @@ function SubStateMachine:init(state)
 		state[func] = function(_, ...)
 			state_func(state, ...)
 			if self and self[func] then
-				self[func](...)
+				self[func](self, ...)
+			end
 			end
 		end
 	end
@@ -33,7 +34,6 @@ function SubStateMachine:deactivate()
 end
 
 function SubStateMachine:addState(id, state)
-	state.machine = self
 	self.states[id] = state
 end
 
@@ -64,10 +64,10 @@ function SubStateMachine:push(id)
 		error("The state \""..id.."\" doesn't exist!")
 	end
 
-	local new_state = copy(state)
+	local new_state = state()
+	new_state.machine = self
 	self:getCurrentState():pause()
 	table.insert(self.stack, new_state)
-	new_state:init()
 	new_state:enter()
 
 	return new_state
@@ -93,9 +93,9 @@ function SubStateMachine:changeState(id)
 
 	self:resetStack()
 
-	local new_state = copy(state)
+	local new_state = state()
+	new_state.machine = self
 	table.insert(self.stack, new_state)
-	new_state:init()
 	new_state:enter()
 
 	return new_state

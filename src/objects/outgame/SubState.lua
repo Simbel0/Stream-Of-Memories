@@ -1,7 +1,6 @@
 local SubState = Class()
 
 function SubState:init()
-
 end
 
 function SubState:enter()
@@ -30,6 +29,10 @@ end
 
 function SubState:keypressed()
 
+end
+
+function SubState:getMainState()
+	return self.machine.up_state
 end
 
 return SubState
