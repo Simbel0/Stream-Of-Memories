@@ -1,6 +1,6 @@
 local menu = {}
 
-local MainMenu = require("src.states.menu.substates.main")
+local MainMenu = require("src.states.menu.substates.menu_main")
 
 function menu:init()
 	print("Init Menu State")
@@ -16,7 +16,7 @@ function menu:enter()
 	print("Entered Menu State")
 end
 
-function mouseHovered(obj)
+local function mouseHovered(obj)
 	local w, h
 	if obj.getDimensions then
 		w, h = obj:getDimensions()

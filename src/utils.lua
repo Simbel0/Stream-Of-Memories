@@ -101,4 +101,11 @@ function Utils.simpleTitleCase(str)
     return w:upper()..ord
 end
 
+function Utils.generateBS()
+    local str = ""
+    for i=1,love.math.random(2, 15) do
+        str = str..string.char(love.math.random(32, 126))
+    end
+end
+
 return Utils

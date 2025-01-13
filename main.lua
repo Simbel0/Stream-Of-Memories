@@ -44,6 +44,9 @@ MemoryFactory = require("src.objects.MemoryFactory")
 SubStateMachine = require("src.objects.outgame.SubStateMachine")
 SubState = require("src.objects.outgame.SubState")
 
+ButtonHandler = require("src.objects.outgame.ButtonHandler")
+Button = require("src.objects.outgame.Button")
+
 GameStates = {
 	["menu/start"] = require("src.states.menu.start"),
 	["menu/mainmenu"] = require("src.states.menu.mainmenu"),
@@ -113,6 +116,7 @@ end
 function love.update(dt)
 	Timer.update(dt)
 	DT = dt
+	DTMULT = DT*60
 
 	if START_QUIT then
 		QUIT_TIMER = QUIT_TIMER + DT

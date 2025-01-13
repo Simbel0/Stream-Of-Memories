@@ -3,6 +3,7 @@ SCREEN_WIDTH, SCREEN_HEIGHT = love.graphics.getDimensions()
 DEBUG_VIEW = false
 
 DT = 1/30
+DTMULT = DT*60
 
 FPS = 0
 FPS_TIMER = 0
