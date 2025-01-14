@@ -29,13 +29,14 @@ function ButtonHandler:update()
 
 			if self.clickedButton.alpha <= 0 then
 				self.clickedButton:onPostFade(self)
-				self:release()
 			end
 		end
 	end
 
 	for i,button in ipairs(self.buttons) do
-		button:update()
+		if not self.clickedButton then
+			button:update()
+		end
 		if self.clickedButton and self.clickedButton ~= button then
 			button.alpha = button.alpha - DTMULT
 		end
