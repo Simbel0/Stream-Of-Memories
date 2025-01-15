@@ -7,6 +7,8 @@ function menu:init()
 
 	self.screen_light = love.graphics.newImage("assets/sprites/ui/screen_light.png")
 
+	self.verFont = love.graphics.newFont("assets/fonts/coffee.ttf", 16)
+
 	self.stateMachine = SubStateMachine(self)
 	self.stateMachine:addState("MAIN", MainMenu)
 	self.stateMachine:changeState("MAIN")
@@ -48,12 +50,17 @@ function menu:keypressed(key)
 	print(key)
 end
 
-function menu:draw()	
+function menu:draw()
 	love.graphics.setColor(106/255, 51/255, 231/255, 0.6)
 	love.graphics.rectangle("fill", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
 end
 
 function menu:postDraw()
+	love.graphics.setColor(1, 0.2, 1, 0.7)
+	love.graphics.setFont(self.verFont)
+	local w = main_font:getWidth("v"..tostring(VERSION))
+	love.graphics.print("v"..tostring(VERSION), 0, 0)
+
 	love.graphics.setColor(1,1,1,0.3)
 	love.graphics.draw(self.screen_light, 0, 0)
 end
