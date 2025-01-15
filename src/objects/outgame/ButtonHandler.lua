@@ -25,7 +25,7 @@ function ButtonHandler:update()
 		self.delay = self.delay - DTMULT
 
 		if self.delay <= 0 then
-			self.clickedButton.alpha = self.clickedButton.alpha - DTMULT
+			self.clickedButton.alpha = self.clickedButton.alpha - 2*DT
 
 			if self.clickedButton.alpha <= 0 then
 				self.clickedButton:onPostFade(self)
