@@ -73,7 +73,38 @@ end
 
 function Button:draw()
 	love.graphics.setColor(self:getColor())
+	love.graphics.setLineWidth(5)
+
 	love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+
+	local corner_width, corner_height = BUTTON_CORNER_TEXTURE:getDimensions()
+
+	love.graphics.setColor(1, 0.8, 1, self.alpha)
+
+	-- Dear fucking god I hate this
+
+	-- top-left
+	love.graphics.draw(BUTTON_CORNER_TEXTURE, self.x-corner_width/2, self.y-corner_height/2)
+
+	local x, y = self.x+corner_width/2, (self.y-corner_height/2)+4.5
+	love.graphics.line(x, y, x+(self.width-corner_width), y)
+
+	-- top-right
+	love.graphics.draw(BUTTON_CORNER_TEXTURE, x+self.width, self.y-corner_height/2, math.rad(90))
+
+	local x2, y2 = x+(self.width-corner_width/2)+1.5, self.y+corner_height-5
+	love.graphics.line(x2, y2, x2, y2+(self.height-corner_height))
+
+	-- bottom-right
+	love.graphics.draw(BUTTON_CORNER_TEXTURE, (x2+corner_width/2)-3, y2+(self.height), math.rad(90*2))
+
+	local x3, y3 = self.x+self.width-corner_width/2, self.y+self.height+2
+	love.graphics.line(x3, y3, self.x+corner_width/2, y3)
+
+	-- bottom-left
+	love.graphics.draw(BUTTON_CORNER_TEXTURE, self.x-corner_width/2, (self.y+self.height)+corner_height/2, math.rad(90*3))
+
+	love.graphics.line((self.x-corner_width/2)+3.5, (self.y+self.height)-corner_height/2, (self.x-corner_width/2)+3.5, self.y+corner_height/2)
 end
 
 return Button

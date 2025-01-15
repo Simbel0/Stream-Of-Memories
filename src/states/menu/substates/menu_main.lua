@@ -12,9 +12,9 @@ function menu:init()
 	self.transition_state = "IN"
 
 	self.button_handler = ButtonHandler(self)
-	self.button_handler:addButton("Play", 200, 200, 100, 100, {
+	self.button_handler:addButton("Play", 200, 200, 200, 100, {
 		delay = 0,
-		color = {0.7, 0.5, 0.5}
+		color = {1, 0.3, 0.3}
 	})
 	self.button_handler:addButton("Settings", 250, 250, 100, 100, {
 		delay = 5,
