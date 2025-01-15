@@ -38,7 +38,7 @@ function ButtonHandler:update()
 			button:update()
 		end
 		if self.clickedButton and self.clickedButton ~= button then
-			button.alpha = button.alpha - DTMULT
+			button.alpha = button.alpha - 2*DT
 		end
 	end
 end
