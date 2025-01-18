@@ -116,4 +116,17 @@ function Utils.RandomNegation()
     end
 end
 
+function Utils.copy(tbl)
+    local new_tbl = {}
+    for k,v in pairs(tbl) do
+        if type(v) == "table" then
+            new_tbl[k] = copy(v)
+        else
+            new_tbl[k] = v
+        end
+    end
+
+    return new_tbl
+end
+
 return Utils

@@ -48,19 +48,6 @@ function SubStateMachine:getCurrentState()
 	return self.stack[#self.stack]
 end
 
-function copy(tbl)
-	local new_tbl = {}
-	for k,v in pairs(tbl) do
-		if type(v) == "table" then
-			new_tbl[k] = copy(v)
-		else
-			new_tbl[k] = v
-		end
-	end
-
-	return new_tbl
-end
-
 function SubStateMachine:push(id)
 	local state = self:getState(id)
 	if state == nil then

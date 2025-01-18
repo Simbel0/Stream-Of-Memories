@@ -3,6 +3,8 @@ local Button = Class()
 local __EMPTY = function() end
 
 local function mouseHovered(obj)
+	if obj.selected then return true end
+
 	local w, h
 	if obj.getDimensions then
 		w, h = obj:getDimensions()
@@ -34,8 +36,13 @@ function Button:init(handler, title, x, y, w, h, options)
 	self.title = title or ""
 
 	self.isHovering = false
+	self.selected = false
 
 	self.color = options["color"] or {1, 1, 1}
+	self.hovered_color = options["hovered_color"] or Utils.copy(self.color) or {0.5, 0.5, 0.5}
+	for i=1,3 do
+		self.hovered_color[i] = Utils.clamp(self.hovered_color[i] + 0.2, 0, 1)
+	end
 
 	self.delay = options["delay"] or 0
 	self.alpha = options["startAlpha"] or (self.delay <= 0 and 1 or 0)
@@ -57,8 +64,13 @@ function Button:update()
 		end
 	end
 
-	if love.mouse.isDown(1) and mouseHovered(self) and self:canClick() then
-		self.handler:handleButtonClick(self)
+	if mouseHovered(self) then
+		if love.mouse.isDown(1) and self:canClick() then
+			self.selected = true
+			self.handler:handleButtonClick(self)
+		end
+
+
 	end
 end
 
@@ -67,7 +79,7 @@ function Button:canClick()
 end
 
 function Button:getColor()
-	local r, g, b = unpack(self.color)
+	local r, g, b = unpack(mouseHovered(self) and self.hovered_color or self.color)
 	return r, g, b, self.alpha
 end
 
@@ -75,6 +87,14 @@ function Button:getSecondColor()
 	local r, g, b, a = self:getColor()
 	local light_value = 0.2
 	return r+light_value, g+light_value, b+light_value, a
+end
+
+function Button:getLineColor()
+	local r, g, b = 1, 0.8, 1
+	if mouseHovered(self) then
+		g = 1
+	end
+	return r, g, b, self.alpha
 end
 
 function Button:draw()
@@ -96,7 +116,7 @@ function Button:draw()
 
 	local corner_width, corner_height = BUTTON_CORNER_TEXTURE:getDimensions()
 
-	love.graphics.setColor(1, 0.8, 1, self.alpha)
+	love.graphics.setColor(self:getLineColor())
 
 	-- Dear fucking god I hate this
 
