@@ -108,4 +108,12 @@ function Utils.generateBS()
     end
 end
 
+function Utils.RandomNegation()
+    if love.math.random() < 0.5 then
+        return -1
+    else
+        return 1
+    end
+end
+
 return Utils
