@@ -12,7 +12,7 @@ function ButtonHandler:init(state)
 	self.buttons = {}
 	self.clickedButton = nil
 
-	self.delay = 60
+	self.delay = 30
 
 	--self.id = Utils.generateBS()
 	--Signal.register(self.id.."-shoot")
@@ -29,7 +29,7 @@ function ButtonHandler:update()
 		self.delay = self.delay - DTMULT
 
 		if self.delay <= 0 then
-			self.clickedButton.alpha = self.clickedButton.alpha - 2*DT
+			self.clickedButton.alpha = self.clickedButton.alpha - 4*DT
 
 			if self.clickedButton.alpha <= 0 then
 				self.clickedButton:onPostFade(self)
@@ -42,7 +42,7 @@ function ButtonHandler:update()
 			button:update()
 		end
 		if self.clickedButton and self.clickedButton ~= button then
-			button.alpha = button.alpha - 2*DT
+			button.alpha = button.alpha - 4*DT
 		end
 	end
 end
