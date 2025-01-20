@@ -51,6 +51,7 @@ function Button:init(handler, title, x, y, w, h, options)
 	self.speed = (options["fadeSpeed"] or 5)/60
 
 	self.onHover = options["onHover"] or __EMPTY
+	self.onUnHover = options["onUnHover"] or __EMPTY
 	self.onClicked = options["onClicked"] or __EMPTY
 	self.onPostFade = options["onPostFade"] or __EMPTY
 end
@@ -65,12 +66,20 @@ function Button:update()
 	end
 
 	if mouseHovered(self) then
+		if not self.isHovering and not self.selected then
+			self:onHover()
+			self.isHovering = true
+		end
+
 		if love.mouse.isDown(1) and self:canClick() then
 			self.selected = true
 			self.handler:handleButtonClick(self)
 		end
-
-
+	else
+		if self.isHovering and not self.selected then
+			self:onUnHover()
+			self.isHovering = false
+		end
 	end
 end
 

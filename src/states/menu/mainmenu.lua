@@ -1,6 +1,7 @@
 local menu = {}
 
 local MainMenu = require("src.states.menu.substates.menu_main")
+local PlayMode = require("src.states.menu.substates.play_mode")
 
 function menu:init()
 	print("Init Menu State")
@@ -18,6 +19,7 @@ function menu:init()
 
 	self.stateMachine = SubStateMachine(self)
 	self.stateMachine:addState("MAIN", MainMenu)
+	self.stateMachine:addState("PLAYMODE", PlayMode)
 	self.stateMachine:changeState("MAIN")
 end
 

@@ -18,7 +18,15 @@ function menu:init()
 	})
 	self.button_handler:addButton("Play", 220, 430, 200, 70, {
 		delay = 10,
-		color = {1, 0.3, 0.3}
+		color = {1, 0.3, 0.3},
+		onPostFade = function(button, handler)
+			local SSMachine = handler:getSubStateMachine()
+			if not SSMachine then
+				error("Couldn't find the SubState Machine")
+			end
+			SSMachine:changeState("PLAYMODE")
+			--GameStateManager:changeState("game")
+		end,
 	})
 	self.button_handler:addButton("Settings", 550, 430, 200, 70, {
 		delay = 20,

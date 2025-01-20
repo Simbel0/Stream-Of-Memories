@@ -18,6 +18,10 @@ function ButtonHandler:init(state)
 	--Signal.register(self.id.."-shoot")
 end
 
+function ButtonHandler:getSubStateMachine()
+	return self.state and self.state.machine or nil
+end
+
 function ButtonHandler:update()
 	self.timer = self.timer + DTMULT
 
