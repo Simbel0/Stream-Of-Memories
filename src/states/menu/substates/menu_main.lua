@@ -10,6 +10,7 @@ function menu:init()
 	self.timer = 0
 
 	self.transition_state = "IN"
+	self.transition_callback = nil
 
 	self.button_handler = ButtonHandler(self)
 	self.button_handler:addButton("Memories", 50, 300, 200, 70, {
@@ -20,11 +21,14 @@ function menu:init()
 		delay = 10,
 		color = {1, 0.3, 0.3},
 		onPostFade = function(button, handler)
-			local SSMachine = handler:getSubStateMachine()
-			if not SSMachine then
-				error("Couldn't find the SubState Machine")
+			self.transition_callback = function(self)
+				local SSMachine = handler:getSubStateMachine()
+				if not SSMachine then
+					error("Couldn't find the SubState Machine")
+				end
+				SSMachine:changeState("PLAYMODE")
 			end
-			SSMachine:changeState("PLAYMODE")
+			self.transition_state = "OUT"
 			--GameStateManager:changeState("game")
 		end,
 	})
@@ -48,10 +52,26 @@ function menu:update()
 	if self.transition_state == "IN" then
 		if self.logo_alpha < 1 then
 			self.logo_alpha = self.logo_alpha + 5*DT
+
+			if self.logo_alpha >= 1 then
+				self.transition_state = "NONE"
+				if self.transition_callback then
+					self:transition_callback()
+					self.transition_callback = nil
+				end
+			end
 		end
-	else
+	elseif self.transition_state == "OUT" then
 		if self.logo_alpha > 0 then
 			self.logo_alpha = self.logo_alpha - 5*DT
+
+			if self.logo_alpha <= 0 then
+				self.transition_state = "NONE"
+				if self.transition_callback then
+					self:transition_callback()
+					self.transition_callback = nil
+				end
+			end
 		end
 	end
 
