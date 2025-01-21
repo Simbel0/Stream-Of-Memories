@@ -73,6 +73,7 @@ function Button:update()
 
 		if love.mouse.isDown(1) and self:canClick() then
 			self.selected = true
+			if self.isHovering then self:onUnHover() end
 			self.handler:handleButtonClick(self)
 		end
 	else
