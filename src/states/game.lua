@@ -307,7 +307,7 @@ function game:resetTubes()
 	self.tubes_timer = {}
 
 	for i=#self.memories, 1, -1 do
-		local memory = table.remove(self.tubes, i)
+		local memory = table.remove(self.memories, i)
 		memory:remove()
 	end
 	self.memories = {}
