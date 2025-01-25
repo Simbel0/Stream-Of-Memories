@@ -15,6 +15,11 @@ function menu:init()
 	self.timer = 0
 	self.stars = {}
 
+	self.transition_state = "NONE"
+	self.transition_callback = nil
+	self.transition_options = {}
+	self.transition_fader_alpha = 0
+
 	self.verFont = love.graphics.newFont("assets/fonts/coffee.ttf", 16)
 
 	self.stateMachine = SubStateMachine(self)
@@ -25,6 +30,36 @@ end
 
 function menu:enter()
 	print("Entered Menu State")
+end
+
+function menu:startTransition(mode, callback, alpha, options)
+	if mode == nil then
+		self.transition_state = "NONE"
+		return
+	end
+
+	options = options or {}
+	self.transition_options = {
+		update = options["update"] or nil,
+		preDraw = options["preDraw"] or nil,
+		postDraw = options["postDraw"] or nil,
+	}
+
+	self.transition_callback = callback
+
+	self.transition_state = mode
+	if alpha then
+		self.transition_fader_alpha = alpha
+	end
+end
+
+function menu:stopTransition(reset_alpha)
+	if reset_alpha == true or reset_alpha == nil then
+		self.transition_fader_alpha = self.transition_state == "IN" and 0 or 1
+	end
+
+	self.transition_state = "NONE"
+	self.transition_options = {}
 end
 
 local function mouseHovered(obj)
@@ -76,6 +111,37 @@ function menu:update()
 			self.logo_alpha = self.logo_alpha + 10*DT
 		end
 	end]]
+
+	if self.transition_state == "IN" then
+		self.transition_fader_alpha = self.transition_fader_alpha - 5*DT
+
+		if self.transition_options["update"] then
+			self.transition_options["update"](self)
+		end
+
+		if self.transition_fader_alpha <= 0 then
+			self:stopTransition()
+			if self.transition_callback then
+				self.transition_callback(self)
+				self.transition_callback = nil
+			end
+		end
+	elseif self.transition_state == "OUT" then
+		self.transition_fader_alpha = self.transition_fader_alpha + 1*DT
+
+		if self.transition_options["update"] then
+			self.transition_options["update"](self)
+		end
+
+		if self.transition_fader_alpha >= 1 then
+			print("B", self.transition_callback)
+			self:stopTransition()
+			if self.transition_callback then
+				self.transition_callback(self)
+				self.transition_callback = nil
+			end
+		end
+	end
 end
 
 function menu:mousepressed( x, y, button, istouch, presses )
@@ -121,6 +187,15 @@ function menu:postDraw()
 
 	love.graphics.setColor(1,1,1,0.3)
 	love.graphics.draw(self.screen_light, 0, 0)
+
+	if self.transition_options["preDraw"] then
+		self.transition_options["preDraw"](self)
+	end
+	love.graphics.setColor(0, 0, 0, self.transition_fader_alpha)
+	love.graphics.rectangle("fill", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+	if self.transition_options["postDraw"] then
+		self.transition_options["postDraw"](self)
+	end
 end
 
 return menu

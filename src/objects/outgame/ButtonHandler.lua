@@ -14,6 +14,8 @@ function ButtonHandler:init(state)
 
 	self.delay = 30
 
+	self.done = false
+
 	--self.id = Utils.generateBS()
 	--Signal.register(self.id.."-shoot")
 end
@@ -23,6 +25,7 @@ function ButtonHandler:getSubStateMachine()
 end
 
 function ButtonHandler:update()
+	if self.done then return end
 	self.timer = self.timer + DTMULT
 
 	if self.clickedButton then
@@ -33,6 +36,7 @@ function ButtonHandler:update()
 
 			if self.clickedButton.alpha <= 0 then
 				self.clickedButton:onPostFade(self)
+				self.done = true
 			end
 		end
 	end

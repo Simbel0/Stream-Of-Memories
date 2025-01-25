@@ -16,12 +16,22 @@ function menu:init()
 		onUnHover = function(button)
 			self.info_text = ""
 		end,
+		onPostFade = function(button, handler)
+			local SSMachine = handler:getSubStateMachine()
+			if not SSMachine then
+				error("Couldn't find the SubState Machine")
+			end
+			SSMachine.up_state:startTransition("OUT", function(state)
+				print("hey")
+				GameStateManager:changeState("game", false)
+			end)
+		end,
 	})
 	self.button_handler:addButton("Neuro Mode", SCREEN_WIDTH-50-250, 120, 250, 250, {
 		delay = 10,
 		color = {1, 0.5, 1},
 		onHover = function(button)
-			self.info_text = "A turn-based version of the game. Made specifically for Neuro to play. The game will send information to Neuro during gameplay if this mode is chosen.\n\nEasier for humans to play I guess."
+			self.info_text = "A turn-based version of the game. Made specifically for Neuro to play. Information will be send to Neuro during gameplay if this mode is chosen.\n\nEasier for humans to play I guess."
 		end,
 		onUnHover = function(button)
 			self.info_text = ""
