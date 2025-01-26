@@ -115,6 +115,9 @@ function game:enter()
 	self.max_inst_vol = 1
 	self.max_voice_vol = 1
 
+	Musics["LIFEInst"]:stop()
+	Musics["LIFE"]:stop()
+
 	Musics["LIFEInst"]:play()
 	Musics["LIFE"]:play()
 
