@@ -34,7 +34,18 @@ function menu:init()
 	})
 	self.button_handler:addButton("Settings", 550, 430, 200, 70, {
 		delay = 20,
-		color = {0.5, 0.5, 0.5}
+		color = {0.5, 0.5, 0.5},
+		onPostFade = function(button, handler)
+			self.transition_callback = function(self)
+				local SSMachine = handler:getSubStateMachine()
+				if not SSMachine then
+					error("Couldn't find the SubState Machine")
+				end
+				SSMachine:changeState("SETTINGS")
+			end
+			self.transition_state = "OUT"
+			--GameStateManager:changeState("game")
+		end,
 	})
 	self.button_handler:addButton("Credits", SCREEN_WIDTH-(220+50), 300, 200, 70, {
 		delay = 30,

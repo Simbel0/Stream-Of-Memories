@@ -47,6 +47,8 @@ SubState = require("src.objects.outgame.SubState")
 ButtonHandler = require("src.objects.outgame.ButtonHandler")
 Button = require("src.objects.outgame.Button")
 
+SettingsManager = require("src.objects.outgame.SettingsManager")
+
 GameStates = {
 	["menu/start"] = require("src.states.menu.start"),
 	["menu/mainmenu"] = require("src.states.menu.mainmenu"),
