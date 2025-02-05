@@ -71,6 +71,23 @@ Musics = {}
 
 GlobalData = {}
 
+GlobalData.Settings = {}
+--[[local mt_GD_Settings = setmetatable(GlobalData.Settings, {})
+
+mt_GD_Settings.__newindex = function(tbl, key, value)
+
+	if key == "volume" then
+		for name,source in pairs(Musics) do
+			if not source.og_vol then
+				source.og_vol = source:getVolume()
+			end
+			source:setVolume(source.og_vol)
+		end
+	end
+
+	rawset(tbl, key, value)
+end]]
+
 function love.load()
 	require("src.vars")
 	print("GAME START: Neuro Game is started!")

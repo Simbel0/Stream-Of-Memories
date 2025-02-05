@@ -11,20 +11,25 @@ function menu:init()
 	})
 
 	self.settings_manager = SettingsManager(self)
-	self.settings_manager:addSetting("Volume", "volume", 100, {"_slider"}, {
-		onSliderChange = function(value, mult)
+	self.settings_manager:addSetting("Volume", "volume", 100, {"_number"}, {
+		onNumberChange = function(value, mult)
 			return value+10*mult
+		end,
+		getValueString = function(value)
+			return value.."%"
 		end
 	})
 	self.settings_manager:addSetting("Background", "menu_bg", "Basic", {"Evil", "Neuro", "Basic", "LIFE"})
 	self.settings_manager:addSetting("Window Scale", "win_scale", 1, {"_number"}, {
-		onNumberChange = function(value, dir)
-			if value == 1 and dir == "left" then
+		onNumberChange = function(value, mult)
+			if value == 1 and mult == -1 then
 				return value
 			end
 
-			local mult = dir == "left" and -1 or 1
-			local new_value = value*(2*mult)
+			local new_value = value+(2*mult)
+		end,
+		getValueString = function(value)
+			return value.."x"
 		end
 	})
 end
@@ -35,7 +40,11 @@ end
 
 function menu:update()
 
-	--self.settings_manager:update()
+	self.settings_manager:update()
+end
+
+function menu:keypressed(...)
+	self.settings_manager:keypressed(...)
 end
 
 function menu:draw()
