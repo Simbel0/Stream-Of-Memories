@@ -129,7 +129,7 @@ function menu:mousepressed( x, y, button, istouch, presses )
 	if self.state == "POWEROFF" and button == 1 and self:mouseHoveredPower() then
 		self.state = "BOOTUP"
 		self.timer = 0
-		Musics["LIFEInst"]:play()
+		Music["LIFEInst"]:play()
 	end
 end
 

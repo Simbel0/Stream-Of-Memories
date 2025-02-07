@@ -67,26 +67,26 @@ function GameStateManager:changeState(state, use_switch, ...)
 	end
 end
 
-Musics = {}
+Music = require("src.Music")
 
 GlobalData = {}
 
-GlobalData.Settings = {}
---[[local mt_GD_Settings = setmetatable(GlobalData.Settings, {})
+local SETTINGS = {}
 
-mt_GD_Settings.__newindex = function(tbl, key, value)
+GlobalData.Settings = setmetatable({}, {
+	__index = SETTINGS,
+	__newindex = function(tbl, key, value)
+		rawset(SETTINGS, key, value)
+		print("Settings Changed", key, value)
 
-	if key == "volume" then
-		for name,source in pairs(Musics) do
-			if not source.og_vol then
-				source.og_vol = source:getVolume()
+		if key == "volume" then
+			for name,data in pairs(Music.sources) do
+				print("Changing volume of "..name)
+				Music:setVolume(name)
 			end
-			source:setVolume(source.og_vol)
 		end
 	end
-
-	rawset(tbl, key, value)
-end]]
+})
 
 function love.load()
 	require("src.vars")
@@ -107,11 +107,11 @@ function love.load()
 	if love.system.getOS() == "Web" then
 		mode = "static"
 	end
-	Musics["LIFE"] = love.audio.newSource("assets/music/LIFE.ogg", mode)
-	Musics["LIFEInst"] = love.audio.newSource("assets/music/LIFE-inst.ogg", mode)
+	Music["LIFE"] = love.audio.newSource("assets/music/LIFE.ogg", mode)
+	Music["LIFEInst"] = love.audio.newSource("assets/music/LIFE-inst.ogg", mode)
 
-	Musics["LIFE"]:setLooping(true)
-	Musics["LIFEInst"]:setLooping(true)
+	Music["LIFE"]:setLooping(true)
+	Music["LIFEInst"]:setLooping(true)
 
 	for id,state in pairs(GameStates) do
 		GameStates[id].id = id
@@ -125,9 +125,13 @@ function love.load()
 end
 
 function love.quit()
+	setmetatable(GlobalData.Settings, nil)
+	GlobalData.Settings = Utils.copy(SETTINGS)
 	if love.system.getOS() ~= "Web" then
 		love.filesystem.write("save.json", JSON.encode(GlobalData))
 	end
+
+	Music:release()
 
 	return true
 end

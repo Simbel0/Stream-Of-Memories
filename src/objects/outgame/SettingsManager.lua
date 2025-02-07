@@ -11,8 +11,6 @@ function SettingsManager:init(state)
 
 	self.normal_color = {0.7, 0.7, 0.7}
 	self.selected_color = {1, 1, 1}
-
-	if not GlobalData.Settings then GlobalData.Settings = {} end
 end
 
 --[[local function checkvalue(mode, value)

@@ -115,11 +115,11 @@ function game:enter()
 	self.max_inst_vol = 1
 	self.max_voice_vol = 1
 
-	Musics["LIFEInst"]:stop()
-	Musics["LIFE"]:stop()
+	Music["LIFEInst"]:stop()
+	Music["LIFE"]:stop()
 
-	Musics["LIFEInst"]:play()
-	Musics["LIFE"]:play()
+	Music["LIFEInst"]:play()
+	Music["LIFE"]:play()
 
 	self:resetTubes()
 	self:addTube({
@@ -146,8 +146,8 @@ function game:leave()
 		GlobalData.best_score = self.best_score
 	end
 
-	Musics["LIFE"]:stop()
-	Musics["LIFEInst"]:stop()
+	Music["LIFE"]:stop()
+	Music["LIFEInst"]:stop()
 end
 
 function game:keypressed(key)
@@ -170,7 +170,7 @@ end
 function game:update()
 	self.stage:update()
 
-	Musics["LIFEInst"]:setVolume(math.max(self.inst_vol-self.voice_vol, 0))
+	Music:setVolume("LIFEInst", math.max(self.inst_vol-self.voice_vol, 0))
 
 	if self.game_timer > 150 then
 		self.voice_vol = self.voice_vol + DT/20
@@ -179,7 +179,7 @@ function game:update()
 		end
 	end
 
-	Musics["LIFE"]:setVolume(self.voice_vol)
+	Music:setVolume("LIFE", self.voice_vol)
 
 	self.game_timer = self.game_timer + DT
 

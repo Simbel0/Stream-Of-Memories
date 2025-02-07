@@ -11,9 +11,9 @@ function menu:init()
 	})
 
 	self.settings_manager = SettingsManager(self)
-	self.settings_manager:addSetting("Volume", "volume", 100, {"_number"}, {
+	self.settings_manager:addSetting("Volume", "volume", 40, {"_number"}, {
 		onNumberChange = function(value, mult)
-			return value+10*mult
+			return Utils.clamp(value+10*mult, 0, 100)
 		end,
 		getValueString = function(value)
 			return value.."%"
