@@ -73,8 +73,8 @@ end
 function SettingsManager:draw()
 	for i,data in ipairs(self.settings) do
 		love.graphics.setColor(unpack(self.selected == i and self.selected_color or self.normal_color))
-		if self.state == "CHANGE" and self.selected_color == i then
-			love.graphics.setColor(0.7, 0.2, 0.6)
+		if self.state == "CHANGE" and self.selected == i then
+			love.graphics.setColor(1, 0.5, 1)
 		end
 		local y = 100+(i-1)*45
 		love.graphics.print(data.name, 50, y)
