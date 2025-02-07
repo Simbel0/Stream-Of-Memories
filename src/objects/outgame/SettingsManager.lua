@@ -66,6 +66,8 @@ function SettingsManager:keypressed(key, scancode, is_repeat)
 			local newvalue = self.settings[self.selected].functions.onNumberChange(self.settings[self.selected].value, key == "left" and -1 or 1)
 			self.settings[self.selected].value = newvalue
 			GlobalData.Settings[self.settings[self.selected].key] = newvalue
+		elseif key == "return" then
+			self.state = "SELECT"
 		end
 	end
 end
