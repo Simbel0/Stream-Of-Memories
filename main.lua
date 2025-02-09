@@ -190,6 +190,9 @@ function love.keypressed(key, scancode, is_repeat)
 		MEMORY_SPEED = MEMORY_SPEED + 5
 	elseif scancode == "kp-" and DEBUG_VIEW then
 		MEMORY_SPEED = MEMORY_SPEED - 5
+	elseif scancode == "f4" then
+		local fullscreen = love.window.getFullscreen()
+		love.window.setFullscreen(not fullscreen)
 	end
 end
 
