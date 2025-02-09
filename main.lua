@@ -86,6 +86,26 @@ GlobalData.Settings = setmetatable({}, {
 			end
 		elseif key == "fullscreen" then
 			love.window.setFullscreen(value)
+		elseif key == "win_scale" then
+			local width, _, flags = love.window.getMode()
+
+			if SCREEN_WIDTH*value == width then
+				return
+			end
+
+			local window_width = SCREEN_WIDTH*value
+			local window_height = SCREEN_HEIGHT*value
+
+			local pc_width, pc_height = love.window.getDesktopDimensions(flags.display)
+
+			flags.x = math.max(0, (pc_width - love.window.fromPixels(window_width)) / 2)
+			flags.y = math.max(0, (pc_height - love.window.fromPixels(window_height)) / 2)
+
+			love.window.setMode(
+				love.window.fromPixels(window_width),
+				love.window.fromPixels(window_height),
+				flags
+			)
 		end
 	end
 })
