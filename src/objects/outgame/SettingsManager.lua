@@ -128,6 +128,7 @@ function SettingsManager:draw()
 			for i,option in ipairs(data.options) do
 				max_width = max_width + main_font:getWidth(option) + between_padding
 			end
+			max_width = max_width - between_padding
 
 			local x = self.settings_x-max_width/2
 			love.graphics.setColor(1, 0.3, 1)
