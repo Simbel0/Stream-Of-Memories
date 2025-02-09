@@ -96,7 +96,7 @@ GlobalData.Settings = setmetatable({}, {
 			local window_width = SCREEN_WIDTH*value
 			local window_height = SCREEN_HEIGHT*value
 
-			local pc_width, pc_height = love.window.getDesktopDimensions(flags.display)
+			local pc_width, pc_height = love.window.getDesktopDimensions(flags.display or 1)
 
 			flags.x = math.max(0, (pc_width - love.window.fromPixels(window_width)) / 2)
 			flags.y = math.max(0, (pc_height - love.window.fromPixels(window_height)) / 2)

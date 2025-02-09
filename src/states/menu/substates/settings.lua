@@ -29,7 +29,7 @@ function menu:init()
 			local _, _, flags = love.window.getMode()
 
 			local new_value = value+1*mult
-			local pc_width, pc_height = love.window.getDesktopDimensions(flags.display)
+			local pc_width, pc_height = love.window.getDesktopDimensions(flags.display or 1)
 			if SCREEN_WIDTH*new_value > pc_width or SCREEN_HEIGHT*new_value > pc_height then
 				return value
 			end
