@@ -9,6 +9,8 @@ function SettingsManager:init(state)
 
 	self.selected = 1
 
+	self.settings_x = 50
+
 	self.normal_color = {0.7, 0.7, 0.7}
 	self.selected_color = {1, 1, 1}
 end
@@ -22,6 +24,18 @@ end
 	elseif mode == "options" and type(value) == "string" then
 		for
 end]]
+
+function SettingsManager:setSettingsX()
+	local largest_width = 0
+	for i,data in ipairs(self.settings) do
+		local width = main_font:getWidth(data.name)
+		if width > largest_width then
+			largest_width = width
+		end
+	end
+
+	self.settings_x = 50 + largest_width + 10
+end
 
 function SettingsManager:addSetting(name, key, default, options, functions)
 	if options == nil or #options == 0 then
@@ -47,6 +61,7 @@ function SettingsManager:addSetting(name, key, default, options, functions)
 	--checkvalue(data.options, data["key"])
 
 	table.insert(self.settings, data)
+	self:setSettingsX()
 end
 
 function SettingsManager:update()
@@ -67,7 +82,7 @@ function SettingsManager:keypressed(key, scancode, is_repeat)
 				GlobalData.Settings[self.settings[self.selected].key] = invertValue
 				return
 			end
-			
+
 			self.state = "CHANGE"
 		end
 	elseif self.state == "CHANGE" then
@@ -91,11 +106,11 @@ function SettingsManager:draw()
 		love.graphics.print(data.name, 50, y)
 
 		if data.mode == "number" then
-			love.graphics.print(data.functions.getValueString(data.value), 250, y)
+			love.graphics.print(data.functions.getValueString(data.value), self.settings_x, y)
 		elseif data.mode == "options" then
-			love.graphics.print(data.value, 250, y)
+			love.graphics.print(data.value, self.settings_x, y)
 		elseif data.mode == "bool" then
-			love.graphics.print(data.value and "Yes" or "No~", 250, y)
+			love.graphics.print(data.value and "Yes" or "No~", self.settings_x, y)
 		end
 	end
 end
