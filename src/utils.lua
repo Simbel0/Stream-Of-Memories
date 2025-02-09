@@ -129,4 +129,32 @@ function Utils.copy(tbl)
     return new_tbl
 end
 
+function Utils.getIndexFromValue(tbl, value)
+    for i,v in ipairs(tbl) do
+        if v == value then
+            return i
+        end
+    end
+end
+
+function Utils.getPreviousValueInArray(tbl, value)
+    local index = Utils.getIndexFromValue(tbl, value)
+    if index == nil then
+        error("Utils: The given value was not in the given array!")
+    elseif index <= 1 then
+        return tbl[index]
+    end
+    return tbl[index-1]
+end
+
+function Utils.getNextValueInArray(tbl, value)
+    local index = Utils.getIndexFromValue(tbl, value)
+    if index == nil then
+        error("Utils: The given value was not in the given array!")
+    elseif index >= #tbl then
+        return tbl[index]
+    end
+    return tbl[index+1]
+end
+
 return Utils

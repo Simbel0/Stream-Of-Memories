@@ -87,7 +87,13 @@ function SettingsManager:keypressed(key, scancode, is_repeat)
 		end
 	elseif self.state == "CHANGE" then
 		if key == "left" or key == "right" then
-			local newvalue = self.settings[self.selected].functions.onNumberChange(self.settings[self.selected].value, key == "left" and -1 or 1)
+			local newvalue
+			if self.settings[self.selected].mode == "number" then
+				newvalue = self.settings[self.selected].functions.onNumberChange(self.settings[self.selected].value, key == "left" and -1 or 1)
+			elseif self.settings[self.selected].mode == "options" then
+				local getNearValue = key == "left" and Utils.getPreviousValueInArray or Utils.getNextValueInArray
+				newvalue = getNearValue(self.settings[self.selected].options, self.settings[self.selected].value)
+			end
 			self.settings[self.selected].value = newvalue
 			GlobalData.Settings[self.settings[self.selected].key] = newvalue
 		elseif key == "return" then
@@ -111,6 +117,34 @@ function SettingsManager:draw()
 			love.graphics.print(data.value, self.settings_x, y)
 		elseif data.mode == "bool" then
 			love.graphics.print(data.value and "Yes" or "No~", self.settings_x, y)
+		end
+
+		if self.state == "CHANGE" and self.selected == i and data.mode == "options" then
+			local corners_padding = 10
+			local between_padding = 20
+
+			local max_width = corners_padding * 2
+
+			for i,option in ipairs(data.options) do
+				max_width = max_width + main_font:getWidth(option) + between_padding
+			end
+
+			local x = self.settings_x-max_width/2
+			love.graphics.setColor(1, 0.3, 1)
+			love.graphics.rectangle("line", x, y, max_width, main_font:getHeight())
+			love.graphics.setColor(1, 0.9, 1)
+			love.graphics.rectangle("fill", x, y, max_width, main_font:getHeight())
+
+			local option_x = x+corners_padding
+			for i,option in ipairs(data.options) do
+				if option == data["value"] then
+					love.graphics.setColor(1, 0.7, 1)
+				else
+					love.graphics.setColor(1, 0.3, 1)
+				end
+				love.graphics.print(option, option_x, y)
+				option_x = option_x + main_font:getWidth(option) + between_padding
+			end
 		end
 	end
 end
