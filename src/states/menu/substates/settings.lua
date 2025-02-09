@@ -6,7 +6,7 @@ function menu:init()
 
 	self.button_handler = ButtonHandler(self)
 	self.button_handler:addButton("Back", SCREEN_WIDTH/2-100, SCREEN_HEIGHT-70-30, 200, 70, {
-		delay = 20,
+		delay = 0,
 		color = {0.5, 0.5, 0.5},
 	})
 
@@ -26,12 +26,20 @@ function menu:init()
 				return value
 			end
 
-			local new_value = value+(2*mult)
+			local new_value = value+1*mult
+			local pc_width, pc_height = love.graphics.getDimensions()
+			if SCREEN_WIDTH*new_value > pc_width or SCREEN_HEIGHT*new_value > pc_height then
+				return value
+			end
+
+			return new_value
 		end,
 		getValueString = function(value)
 			return value.."x"
 		end
 	})
+	self.settings_manager:addSetting("Fullscreen", "fullscreen", false, {"_bool"})
+	self.settings_manager:addSetting("Skip Intro", "introSkip", false, {"_bool"})
 end
 
 function menu:enter()
@@ -39,7 +47,7 @@ function menu:enter()
 end
 
 function menu:update()
-
+	self.button_handler:update()
 	self.settings_manager:update()
 end
 
@@ -48,6 +56,7 @@ function menu:keypressed(...)
 end
 
 function menu:draw()
+	self.button_handler:draw()
 	self.settings_manager:draw()
 end
 

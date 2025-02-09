@@ -23,7 +23,7 @@ end
 		for
 end]]
 
-function SettingsManager:addSetting(name, value, default, options, functions)
+function SettingsManager:addSetting(name, key, default, options, functions)
 	if options == nil or #options == 0 then
 		error("SettingsManager: no options provided.")
 	end
@@ -31,6 +31,8 @@ function SettingsManager:addSetting(name, value, default, options, functions)
 	if options[1] == "_slider" then
 		data.mode = options[1]:sub(2)
 	elseif options[1] == "_number" then
+		data.mode = options[1]:sub(2)
+	elseif options[1] == "_bool" then
 		data.mode = options[1]:sub(2)
 	elseif #options > 1 then
 		data.mode = "options"
@@ -40,9 +42,9 @@ function SettingsManager:addSetting(name, value, default, options, functions)
 	end
 	data["name"] = name
 	data["functions"] = functions
-	data["key"] = value
-	data["value"] = GlobalData.Settings[value] or default
-	--checkvalue(data.options, data["value"])
+	data["key"] = key
+	data["value"] = GlobalData.Settings[key] or default
+	--checkvalue(data.options, data["key"])
 
 	table.insert(self.settings, data)
 end
@@ -59,6 +61,13 @@ function SettingsManager:keypressed(key, scancode, is_repeat)
 		elseif key == "up" then
 			self.selected = Utils.clamp(self.selected - 1, 1, #self.settings)
 		elseif key == "return" then
+			if self.settings[self.selected].mode == "bool" then
+				local invertValue = not self.settings[self.selected].value
+				self.settings[self.selected].value = invertValue
+				GlobalData.Settings[self.settings[self.selected].key] = invertValue
+				return
+			end
+			
 			self.state = "CHANGE"
 		end
 	elseif self.state == "CHANGE" then
@@ -85,6 +94,8 @@ function SettingsManager:draw()
 			love.graphics.print(data.functions.getValueString(data.value), 250, y)
 		elseif data.mode == "options" then
 			love.graphics.print(data.value, 250, y)
+		elseif data.mode == "bool" then
+			love.graphics.print(data.value and "Yes" or "No~", 250, y)
 		end
 	end
 end

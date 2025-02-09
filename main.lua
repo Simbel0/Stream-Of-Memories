@@ -84,6 +84,8 @@ GlobalData.Settings = setmetatable({}, {
 				print("Changing volume of "..name)
 				Music:setVolume(name)
 			end
+		elseif key == "fullscreen" then
+			love.window.setFullscreen(value)
 		end
 	end
 })
@@ -91,6 +93,8 @@ GlobalData.Settings = setmetatable({}, {
 function love.load()
 	require("src.vars")
 	print("GAME START: Neuro Game is started!")
+
+	love.keyboard.setKeyRepeat(true)
 
 	VERSION = Ver(love.filesystem.read("VERSION"))
 	if VERSION then
@@ -121,7 +125,11 @@ function love.load()
 	main_font = love.graphics.newFont("assets/fonts/coffee.ttf", 32)
 
 	GameStateManager.registerEvents()
-	GameStateManager:changeState("menu/start")
+	if GlobalData.Settings["introSkip"] then
+		GameStateManager:changeState("menu/mainmenu")
+	else
+		GameStateManager:changeState("menu/start")
+	end
 end
 
 function love.quit()
