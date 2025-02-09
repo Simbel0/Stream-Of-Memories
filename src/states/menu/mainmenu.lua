@@ -13,6 +13,17 @@ function menu:init()
 	self.bg_star = love.graphics.newImage("assets/sprites/ui/star.png")
 	self.bg_alpha = 0
 
+	self.neuro_gear = love.graphics.newImage("assets/sprites/ui/menu_gear.png")
+	self.gear_rotations = {}
+	self.gear_pos = {
+		{0, 0},
+		{820, SCREEN_HEIGHT/2},
+		{240, 600}
+	}
+	for i,v in ipairs(self.gear_pos) do
+		table.insert(self.gear_rotations, love.math.random(360))
+	end
+
 	self.timer = 0
 	self.stars = {}
 
@@ -108,6 +119,9 @@ function menu:update()
 			end
 		end
 	end
+	for i,rot in ipairs(self.gear_rotations) do
+		self.gear_rotations[i] = rot + DT
+	end
 	--[[if self.state == "MAIN" then
 		if self.logo_alpha < 1 then
 			self.logo_alpha = self.logo_alpha + 10*DT
@@ -167,18 +181,36 @@ function menu:addBGStar(x, y, speed)
 end
 
 function menu:draw()
-	love.graphics.setColor(106/255, 51/255, 231/255, 0.6)
-	love.graphics.rectangle("fill", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+	if GlobalData.Settings["menu_bg"] == "Basic" then
+		love.graphics.setColor(106/255, 51/255, 231/255, 0.6)
+		love.graphics.rectangle("fill", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
 
-	for i,star_data in ipairs(self.stars) do
-		local star = self.bg_star
-		local self = star_data
-		love.graphics.setColor(1, 1, 1, self.alpha)
-		love.graphics.draw(star, self.x, self.y, math.rad(self.rotation))
+		for i,star_data in ipairs(self.stars) do
+			local star = self.bg_star
+			local self = star_data
+			love.graphics.setColor(1, 1, 1, self.alpha)
+			love.graphics.draw(star, self.x, self.y, math.rad(self.rotation))
+		end
+
+		love.graphics.setColor(1, 1, 1, self.bg_alpha)
+		love.graphics.draw(self.bg_fade, 0, 0)
+	elseif GlobalData.Settings["menu_bg"] == "Neuro" then
+		love.graphics.setColor(247/255, 166/255, 172/255, 1)
+		love.graphics.rectangle("fill", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+		love.graphics.setColor(235/255, 125/255, 150/255, 1)
+		love.graphics.rectangle("fill", 0, 0, 50, SCREEN_HEIGHT)
+		love.graphics.rectangle("fill", 0, SCREEN_HEIGHT-50, SCREEN_WIDTH, SCREEN_HEIGHT)
+
+		love.graphics.setColor(1, 1, 1, 1)
+		for i,v in ipairs(self.gear_rotations) do
+			love.graphics.push()
+			local width, height = self.neuro_gear:getDimensions()
+			love.graphics.translate(self.gear_pos[i][1], self.gear_pos[i][2])
+			love.graphics.rotate(self.gear_rotations[i])
+			love.graphics.draw(self.neuro_gear, -width/2, -height/2)
+			love.graphics.pop()
+		end
 	end
-
-	love.graphics.setColor(1, 1, 1, self.bg_alpha)
-	love.graphics.draw(self.bg_fade, 0, 0)
 end
 
 function menu:postDraw()
