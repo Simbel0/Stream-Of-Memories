@@ -19,7 +19,7 @@ function menu:init()
 			return value.."%"
 		end
 	})
-	self.settings_manager:addSetting("Background", "menu_bg", "Basic", {"Evil", "Neuro", "Basic", "LIFE"})
+	self.settings_manager:addSetting("Background Menu", "menu_bg", "Basic", {"Evil", "Neuro", "Basic", "LIFE"})
 	self.settings_manager:addSetting("Window Scale", "win_scale", 1, {"_number"}, {
 		onNumberChange = function(value, mult)
 			if value == 1 and mult == -1 then
@@ -41,7 +41,7 @@ function menu:init()
 		end
 	})
 	self.settings_manager:addSetting("Fullscreen", "fullscreen", false, {"_bool"})
-	self.settings_manager:addSetting("Skip Intro", "introSkip", false, {"_bool"})
+	self.settings_manager:addSetting("Skip Boot", "introSkip", false, {"_bool"})
 end
 
 function menu:enter()
