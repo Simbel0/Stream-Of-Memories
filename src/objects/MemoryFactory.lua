@@ -46,8 +46,15 @@ function MemoryFactory:getAllMemories()
 	return memories
 end
 
-function MemoryFactory:getRandomMemory()
-	local memories = self:getAllMemories()
+function MemoryFactory:getRandomMemory(type)
+	local memories = {}
+	if type == nil then
+		memories = self:getAllMemories()
+	else
+		for k,memory in pairs(self.allMemories[type]) do
+			table.insert(memories, memory)
+		end
+	end
 
 	return memories[love.math.random(1, #memories)]
 end

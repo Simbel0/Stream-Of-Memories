@@ -27,6 +27,25 @@ function menu:init()
 	self.timer = 0
 	self.stars = {}
 
+	self.memories = {}
+	self.memories_path = "assets/sprites/memories"
+	local bMemories = {
+		-- Placeholder stuff
+		"gymbag",
+		"nono",
+
+		-- Actual wrong memories
+		"happyneurosister",
+		"neuroadoptscat",
+		"neuroterminator",
+		"neuroundertale",
+		"sayitback",
+		"towerstream",
+		"unplugged"
+	}
+	self.good_memories = love.filesystem.getDirectoryItems(self.memories_path)
+	table.filter(self.good_memories, function(memory) return not Utils.stringContains(memory, bMemories) end)
+
 	self.transition_state = "NONE"
 	self.transition_callback = nil
 	self.transition_options = {}
@@ -101,6 +120,10 @@ function menu:update()
 		self:addBGStar(love.math.random(0, SCREEN_WIDTH), love.math.random(SCREEN_HEIGHT+10, SCREEN_HEIGHT+50), love.math.random(1, 3))
 	end
 
+	if math.floor(self.timer)%20 == 0 then
+		self:addMemory()
+	end
+
 	for i=#self.stars, 1, -1 do
 		local star_data = self.stars[i]
 		star_data.timer = star_data.timer - DTMULT
@@ -121,6 +144,19 @@ function menu:update()
 	end
 	for i,rot in ipairs(self.gear_rotations) do
 		self.gear_rotations[i] = rot + DT
+	end
+	for i=#self.memories,1, -1 do
+		local mem = self.memories[i]
+		self.memories[i].timer = mem.timer + DTMULT
+
+		local speed = mem.speed/100
+		if mem.timer > 1200 then
+			speed = -speed
+		end
+		mem.alpha = Utils.clamp(mem.alpha+speed*DTMULT, -1, 1)
+		if mem.alpha <= -1 then
+			table.remove(self.memories, i)
+		end
 	end
 	--[[if self.state == "MAIN" then
 		if self.logo_alpha < 1 then
@@ -180,9 +216,20 @@ function menu:addBGStar(x, y, speed)
 	})
 end
 
+function menu:addMemory()
+	table.insert(self.memories, {
+		alpha = 0,
+		x = love.math.random(-50, SCREEN_WIDTH+50),
+		y = love.math.random(-50, SCREEN_HEIGHT+50),
+		speed = love.math.random(1, 3)*Utils.RandomNegation(),
+		texture = love.graphics.newImage(self.memories_path.."/"..self.good_memories[love.math.random(1, #self.good_memories)]),
+		timer = 0
+	})
+end
+
 function menu:draw()
-	if GlobalData.Settings["menu_bg"] == "Basic" then
-		love.graphics.setColor(106/255, 51/255, 231/255, 0.6)
+	if GlobalData.Settings["menu_bg"] == "LIFE" then
+		love.graphics.setColor(97/255, 183/255, 250/255, 1)
 		love.graphics.rectangle("fill", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
 
 		for i,star_data in ipairs(self.stars) do
@@ -190,6 +237,13 @@ function menu:draw()
 			local self = star_data
 			love.graphics.setColor(1, 1, 1, self.alpha)
 			love.graphics.draw(star, self.x, self.y, math.rad(self.rotation))
+		end
+
+		for i,mem_data in ipairs(self.memories) do
+			local self = mem_data
+			love.graphics.setColor(1, 1, 1, self.alpha)
+			love.graphics.draw(self.texture, self.x, self.y)
+			--love.graphics.print(self.timer, self.x, self.y)
 		end
 
 		love.graphics.setColor(1, 1, 1, self.bg_alpha)
@@ -210,6 +264,25 @@ function menu:draw()
 			love.graphics.draw(self.neuro_gear, -width/2, -height/2)
 			love.graphics.pop()
 		end
+	elseif GlobalData.Settings["menu_bg"] == "Evil" then
+		love.graphics.setColor(0, 0, 0, 1)
+
+		love.graphics.rectangle("fill", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+	 
+    	love.graphics.setShader()
+    else
+    	love.graphics.setColor(106/255, 51/255, 231/255, 0.6)
+		love.graphics.rectangle("fill", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+
+		for i,star_data in ipairs(self.stars) do
+			local star = self.bg_star
+			local self = star_data
+			love.graphics.setColor(1, 1, 1, self.alpha)
+			love.graphics.draw(star, self.x, self.y, math.rad(self.rotation))
+		end
+
+		love.graphics.setColor(1, 1, 1, self.bg_alpha)
+		love.graphics.draw(self.bg_fade, 0, 0)
 	end
 end
 

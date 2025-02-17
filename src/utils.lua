@@ -1,5 +1,13 @@
 local Utils = {}
 
+table.filter = function(tbl, filter)
+    for i=#tbl, 1, -1 do
+        if not filter(tbl[i]) then
+            table.remove(tbl, i)
+        end
+    end
+end
+
 ---- from Kristal
 
 local function dumpKey(key)
@@ -155,6 +163,25 @@ function Utils.getNextValueInArray(tbl, value)
         return tbl[index]
     end
     return tbl[index+1]
+end
+
+function Utils.isInTable(value, tbl)
+    for i,v in ipairs(tbl) do
+        if v == value then
+            return true
+        end
+    end
+    return false
+end
+
+function Utils.stringContains(value, strTbl)
+    for i,v in ipairs(strTbl) do
+        local s, e = value:lower():find(v:lower())
+        if s then
+            return true, s, e
+        end
+    end
+    return false
 end
 
 return Utils
