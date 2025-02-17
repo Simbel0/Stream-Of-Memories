@@ -8,6 +8,13 @@ function menu:init()
 	self.button_handler:addButton("Back", SCREEN_WIDTH/2-100, SCREEN_HEIGHT-70-30, 200, 70, {
 		delay = 0,
 		color = {0.5, 0.5, 0.5},
+		onPostFade = function(button, handler)
+			local SSMachine = handler:getSubStateMachine()
+			if not SSMachine then
+				error("Couldn't find the SubState Machine")
+			end
+			SSMachine:changeState("MAIN")
+		end,
 	})
 
 	self.settings_manager = SettingsManager(self)
