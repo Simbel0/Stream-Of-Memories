@@ -15,7 +15,17 @@ function menu:init()
 	self.button_handler = ButtonHandler(self)
 	self.button_handler:addButton("Memories", 50, 300, 200, 70, {
 		delay = 0,
-		color = {1, 0.3, 1}
+		color = {1, 0.3, 1},
+		onPostFade = function(button, handler)
+			self.transition_callback = function(self)
+				local SSMachine = handler:getSubStateMachine()
+				if not SSMachine then
+					error("Couldn't find the SubState Machine")
+				end
+				SSMachine:changeState("COLLECTION")
+			end
+			self.transition_state = "OUT"
+		end,
 	})
 	self.button_handler:addButton("Play", 220, 430, 200, 70, {
 		delay = 10,
@@ -47,9 +57,20 @@ function menu:init()
 			--GameStateManager:changeState("game")
 		end,
 	})
-	self.button_handler:addButton("Credits", SCREEN_WIDTH-(220+50), 300, 200, 70, {
+	self.button_handler:addButton("Quit", SCREEN_WIDTH-(220+50), 300, 200, 70, {
 		delay = 30,
-		color = {0.5, 0.5, 1}
+		color = {0.5, 0.5, 1},
+		onPostFade = function(button, handler)
+			self.transition_callback = function(self)
+				local SSMachine = handler:getSubStateMachine()
+				if not SSMachine then
+					error("Couldn't find the SubState Machine")
+				end
+				love.event.quit()
+			end
+			self.transition_state = "OUT"
+			--GameStateManager:changeState("game")
+		end,
 	})
 end
 

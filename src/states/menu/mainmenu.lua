@@ -3,6 +3,7 @@ local menu = {}
 local MainMenu = require("src.states.menu.substates.menu_main")
 local PlayMode = require("src.states.menu.substates.play_mode")
 local Settings = require("src.states.menu.substates.settings")
+local Collection = require("src.states.menu.substates.collection")
 
 function menu:init()
 	print("Init Menu State")
@@ -57,6 +58,7 @@ function menu:init()
 	self.stateMachine:addState("MAIN", MainMenu)
 	self.stateMachine:addState("PLAYMODE", PlayMode)
 	self.stateMachine:addState("SETTINGS", Settings)
+	self.stateMachine:addState("COLLECTION", Collection)
 	self.stateMachine:changeState("MAIN")
 end
 
@@ -219,8 +221,8 @@ end
 function menu:addMemory()
 	table.insert(self.memories, {
 		alpha = 0,
-		x = love.math.random(-50, SCREEN_WIDTH+50),
-		y = love.math.random(-50, SCREEN_HEIGHT+50),
+		x = love.math.random(-50, SCREEN_WIDTH-50),
+		y = love.math.random(-50, SCREEN_HEIGHT-50),
 		speed = love.math.random(1, 3)*Utils.RandomNegation(),
 		texture = love.graphics.newImage(self.memories_path.."/"..self.good_memories[love.math.random(1, #self.good_memories)]),
 		timer = 0

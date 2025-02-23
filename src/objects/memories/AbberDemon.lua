@@ -7,7 +7,7 @@ function AbberDemon:init(path, speed)
 	self.desc = [[When Evil Neuro's TTS program goes a bit haywire, Evil
 starts making strange demonic-like sounds, from incoherent yells to a
 sudden radio filter or even getting a male voice. ASMR to some people's
-ears!
+ears!<br><br>
 According to Evil, that's just a demon that possess her. Oh well, guess
 that explains it!]]
 
