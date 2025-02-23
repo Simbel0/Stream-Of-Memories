@@ -63,13 +63,19 @@ function menu:update()
 
 	self.selected_memory = nil
 	for i,v in ipairs(self.goodMemories) do
-		if v:mouseHovered(mX, mY) then
+		local w,h = v:getGameTexture():getDimensions()
+		w = (w*MEMORY_SCALE)/2
+		h = (h*MEMORY_SCALE)/2
+		if v:mouseHovered(mX-w, mY-h) then
 			self.selected_memory = v
 			return
 		end
 	end
 	for i,v in ipairs(self.badMemories) do
-		if v:mouseHovered(mX, mY) then
+		local w,h = v:getGameTexture():getDimensions()
+		w = (w*MEMORY_SCALE)/2
+		h = (h*MEMORY_SCALE)/2
+		if v:mouseHovered(mX-w, mY-h) then
 			self.selected_memory = v
 			return
 		end
@@ -80,7 +86,7 @@ function menu:keypressed(...)
 end
 
 function menu:wheelmoved(x, y)
-	self.scroll_offset = self.scroll_offset - y*self.scroll_speed
+	self.scroll_offset = self.scroll_offset + y*self.scroll_speed
 	self:drawMemoryList()
 end
 
