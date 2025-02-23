@@ -308,6 +308,8 @@ function menu:postDraw()
 	if self.transition_options["postDraw"] then
 		self.transition_options["postDraw"](self)
 	end
+
+	printOverlay()
 end
 
 return menu

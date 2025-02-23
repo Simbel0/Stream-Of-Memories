@@ -237,6 +237,10 @@ function printOverlay()
 		love.graphics.print(FPS.." FPS", SCREEN_WIDTH-w, 0)
 	end
 
+	local state = GameStateManager:current()
+	if state:getId() ~= "game" then
+		return
+	end
 	local w = main_font:getWidth("v"..tostring(VERSION))
 	love.graphics.print("v"..tostring(VERSION), SCREEN_WIDTH-w, SCREEN_HEIGHT-32)
 end
