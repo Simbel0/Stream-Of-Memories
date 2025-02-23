@@ -43,6 +43,12 @@ function menu:init()
 	end
 
 	self.small_font = love.graphics.newFont("assets/fonts/coffee.ttf", 16)
+
+	self.list_canvas = love.graphics.newCanvas(432, SCREEN_HEIGHT)
+	self.scroll_offset = 0
+	self.scroll_speed = 20
+
+	self:drawMemoryList()
 end
 
 function menu:enter()
@@ -73,17 +79,21 @@ end
 function menu:keypressed(...)
 end
 
-function menu:draw()
-	love.graphics.setColor(0, 0, 0, 0.5)
-	love.graphics.rectangle("fill", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+function menu:wheelmoved(x, y)
+	self.scroll_offset = self.scroll_offset - y*self.scroll_speed
+	self:drawMemoryList()
+end
 
-	love.graphics.setColor(1, 1, 1, 0.3)
-	love.graphics.rectangle("fill", 16, 50, 432, SCREEN_HEIGHT)
+function menu:drawMemoryList()
+	love.graphics.setCanvas(self.list_canvas)
+	love.graphics.clear()
 
 	love.graphics.setColor(1, 1, 1, 1)
-	love.graphics.print("Good Memories", 24, 55)
+	love.graphics.setFont(main_font)
 
-	local x, y = 26, 100
+	love.graphics.print("Good Memories", 24, 55+self.scroll_offset)
+
+	local x, y = 26, 100+self.scroll_offset
 	for i,memory in ipairs(self.goodMemories) do
 		memory.x = x
 		memory.y = y
@@ -113,6 +123,28 @@ function menu:draw()
 		end
 	end
 
+	love.graphics.setCanvas()
+end
+
+local function stencil()
+   love.graphics.rectangle("fill", 16, 50, 432, SCREEN_HEIGHT)
+end
+
+function menu:draw()
+	love.graphics.setColor(0, 0, 0, 0.5)
+	love.graphics.rectangle("fill", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+
+	love.graphics.setColor(1, 1, 1, 0.3)
+	love.graphics.rectangle("fill", 16, 50, 432, SCREEN_HEIGHT)
+
+	love.graphics.stencil(stencil, "replace", 1)
+	love.graphics.setStencilTest("greater", 0)
+
+	love.graphics.setColor(1, 1, 1, 1)
+	love.graphics.draw(self.list_canvas, 0, 0)
+	
+	love.graphics.setStencilTest()
+
 	if self.selected_memory then
 		love.graphics.setColor(1, 1, 1, 1)
 
@@ -124,6 +156,7 @@ function menu:draw()
 		love.graphics.printf(self.selected_memory:getDescription():gsub("\n", " "):gsub("%s+", " "):gsub("<br>", "\n"):gsub("^%s*(.-)%s*$", "%1"), 480, 290, SCREEN_WIDTH-500)
 	end
 
+	love.graphics.setFont(main_font)
 	self.button_handler:draw()
 end
 

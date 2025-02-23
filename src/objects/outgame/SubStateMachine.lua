@@ -7,7 +7,8 @@ function SubStateMachine:init(state)
 	self.orig_func = {
 		update = state.update,
 		draw = state.draw,
-		keypressed= state.keypressed
+		keypressed = state.keypressed,
+		wheelmoved = state.wheelmoved
 	}
 
 	for func,state_func in pairs(self.orig_func) do
@@ -113,6 +114,10 @@ end
 
 function SubStateMachine:keypressed(...)
 	self:getCurrentState():keypressed(...)
+end
+
+function SubStateMachine:wheelmoved(...)
+	self:getCurrentState():wheelmoved(...)
 end
 
 return SubStateMachine

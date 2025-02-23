@@ -202,6 +202,9 @@ function menu:mousepressed( x, y, button, istouch, presses )
 
 end
 
+function menu:wheelmoved(x, y)
+end
+
 function menu:keypressed(key)
 	print(key)
 end
