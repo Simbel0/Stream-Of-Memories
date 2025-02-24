@@ -49,6 +49,8 @@ function menu:init()
 	self.scroll_speed = 20
 
 	self:drawMemoryList()
+
+	self.youtube_icon = love.graphics.newImage("assets/sprites/ui/youtube.png")
 end
 
 function menu:enter()
@@ -83,6 +85,10 @@ function menu:update()
 end
 
 function menu:keypressed(...)
+end
+
+function menu:mousepressed(...)
+	print(...)
 end
 
 function menu:wheelmoved(x, y)
@@ -160,9 +166,12 @@ function menu:draw()
 
 		love.graphics.setFont(self.small_font)
 		love.graphics.printf(self.selected_memory:getDescription():gsub("\n", " "):gsub("%s+", " "):gsub("<br>", "\n"):gsub("^%s*(.-)%s*$", "%1"), 480, 290, SCREEN_WIDTH-500)
+
+		love.graphics.draw(self.youtube_icon, 480+main_font:getWidth(self.selected_memory:getName())+200, 250)
+		love.graphics.setFont(main_font)
+		love.graphics.print("[RMB]", 480+main_font:getWidth(self.selected_memory:getName())+240, 250)
 	end
 
-	love.graphics.setFont(main_font)
 	self.button_handler:draw()
 end
 

@@ -8,7 +8,8 @@ function SubStateMachine:init(state)
 		update = state.update,
 		draw = state.draw,
 		keypressed = state.keypressed,
-		wheelmoved = state.wheelmoved
+		wheelmoved = state.wheelmoved,
+		mousepressed = state.mousepressed,
 	}
 
 	for func,state_func in pairs(self.orig_func) do
@@ -118,6 +119,15 @@ end
 
 function SubStateMachine:wheelmoved(...)
 	self:getCurrentState():wheelmoved(...)
+end
+
+function SubStateMachine:mousepressed(...)
+	local state = self:getCurrentState()
+	local func = state.mousepressed
+	if not func then
+		return
+	end
+	func(state, ...)
 end
 
 return SubStateMachine
