@@ -8,3 +8,5 @@ Stream of Memories is a point-and-click game created by Simbel and Ettol under 3
 Coding - Simbel
 
 Art - [Ettol](https://www.instagram.com/ett0ll/)
+
+[Kristal Engine](https://github.com/KristalTeam/Kristal) - Deltarune Engine made on LÖVE2D. Served as main guide to build a LÖVE2D game with HUMP from scratch and borrowed some of its Utilities functions
